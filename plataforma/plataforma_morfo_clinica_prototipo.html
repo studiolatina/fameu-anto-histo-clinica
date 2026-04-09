@@ -1,0 +1,387 @@
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-sans); }
+.app { display: grid; grid-template-columns: 220px 1fr 280px; gap: 0; min-height: 600px; border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); overflow: hidden; background: var(--color-background-primary); }
+.sidebar { border-right: 0.5px solid var(--color-border-tertiary); padding: 16px 0; }
+.sidebar-title { font-size: 11px; font-weight: 500; color: var(--color-text-tertiary); letter-spacing: 0.06em; text-transform: uppercase; padding: 0 16px 8px; }
+.nav-group { margin-bottom: 4px; }
+.nav-group-title { font-size: 12px; font-weight: 500; color: var(--color-text-secondary); padding: 6px 16px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; }
+.nav-group-title:hover { background: var(--color-background-secondary); }
+.nav-item { font-size: 13px; color: var(--color-text-secondary); padding: 5px 16px 5px 28px; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+.nav-item:hover { background: var(--color-background-secondary); color: var(--color-text-primary); }
+.nav-item.active { background: var(--color-background-secondary); color: var(--color-text-primary); font-weight: 500; }
+.nav-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.canvas { display: flex; align-items: center; justify-content: center; padding: 24px; background: var(--color-background-tertiary); position: relative; }
+.legend { position: absolute; bottom: 16px; left: 16px; display: flex; flex-direction: column; gap: 6px; }
+.legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--color-text-secondary); }
+.legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.info-panel { border-left: 0.5px solid var(--color-border-tertiary); padding: 20px; overflow-y: auto; }
+.panel-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; gap: 8px; color: var(--color-text-tertiary); font-size: 13px; text-align: center; padding: 40px 20px; }
+.panel-header { margin-bottom: 16px; }
+.panel-nome-lat { font-size: 11px; color: var(--color-text-tertiary); margin-bottom: 2px; }
+.panel-nome-pt { font-size: 18px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 4px; }
+.panel-badges { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
+.badge { font-size: 11px; padding: 3px 8px; border-radius: 20px; font-weight: 500; }
+.badge-osso { background: #E1F5EE; color: #085041; }
+.badge-processo { background: #EEEDFE; color: #3C3489; }
+.badge-forame { background: #FAEEDA; color: #633806; }
+.badge-plano { background: #E6F1FB; color: #0C447C; }
+.section-label { font-size: 11px; font-weight: 500; color: var(--color-text-tertiary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; margin-top: 14px; }
+.section-text { font-size: 13px; color: var(--color-text-primary); line-height: 1.6; }
+.tag-list { display: flex; flex-wrap: wrap; gap: 4px; }
+.tag { font-size: 12px; padding: 2px 8px; border-radius: 4px; background: var(--color-background-secondary); color: var(--color-text-secondary); border: 0.5px solid var(--color-border-tertiary); }
+.parts-list { display: flex; flex-direction: column; gap: 4px; }
+.part-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--color-text-secondary); cursor: pointer; padding: 4px 6px; border-radius: 6px; }
+.part-item:hover { background: var(--color-background-secondary); color: var(--color-text-primary); }
+.part-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.divider { height: 0.5px; background: var(--color-border-tertiary); margin: 14px 0; }
+.tab-bar { display: flex; gap: 0; border-bottom: 0.5px solid var(--color-border-tertiary); margin-bottom: 16px; }
+.tab { font-size: 12px; padding: 8px 12px; cursor: pointer; color: var(--color-text-secondary); border-bottom: 2px solid transparent; margin-bottom: -0.5px; }
+.tab.active { color: var(--color-text-primary); font-weight: 500; border-bottom-color: var(--color-text-primary); }
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+.future-badge { font-size: 11px; padding: 2px 7px; border-radius: 4px; background: var(--color-background-secondary); color: var(--color-text-tertiary); border: 0.5px solid var(--color-border-tertiary); display: inline-flex; align-items: center; gap: 4px; }
+
+svg .bone-region { cursor: pointer; transition: opacity 0.15s; }
+svg .bone-region:hover { opacity: 0.75; }
+svg .bone-region.active { opacity: 1; }
+svg .bone-region.dimmed { opacity: 0.25; }
+</style>
+
+<div class="app">
+  <div class="sidebar">
+    <div style="padding: 16px 16px 12px; border-bottom: 0.5px solid var(--color-border-tertiary); margin-bottom: 8px;">
+      <div style="font-size: 13px; font-weight: 500; color: var(--color-text-primary);">Neurocrânio</div>
+      <div style="font-size: 11px; color: var(--color-text-tertiary); margin-top: 2px;">8 estruturas</div>
+    </div>
+    <div class="sidebar-title">Ossos</div>
+    <div class="nav-group">
+      <div class="nav-item active" onclick="selectBone('frontal')" id="nav-frontal">
+        <span class="nav-dot" style="background:#5DCAA5"></span>
+        Osso frontal
+      </div>
+      <div class="nav-item" onclick="selectBone('parietal')" id="nav-parietal">
+        <span class="nav-dot" style="background:#AFA9EC"></span>
+        Osso parietal
+      </div>
+      <div class="nav-item" onclick="selectBone('occipital')" id="nav-occipital">
+        <span class="nav-dot" style="background:#F0997B"></span>
+        Osso occipital
+      </div>
+      <div class="nav-item" onclick="selectBone('temporal')" id="nav-temporal">
+        <span class="nav-dot" style="background:#FAC775"></span>
+        Osso temporal
+      </div>
+      <div class="nav-item" onclick="selectBone('esfenóide')" id="nav-esfenóide">
+        <span class="nav-dot" style="background:#85B7EB"></span>
+        Osso esfenóide
+      </div>
+      <div class="nav-item" onclick="selectBone('etmóide')" id="nav-etmóide">
+        <span class="nav-dot" style="background:#C0DD97"></span>
+        Osso etmóide
+      </div>
+    </div>
+    <div style="padding: 12px 16px 4px; margin-top: 4px; border-top: 0.5px solid var(--color-border-tertiary);">
+      <div class="sidebar-title" style="padding: 0 0 8px;">Acidentes ósseos</div>
+      <div class="nav-item" onclick="selectBone('forame-magno')" id="nav-forame-magno">
+        <span class="nav-dot" style="background:#EF9F27"></span>
+        Forame magno
+      </div>
+      <div class="nav-item" onclick="selectBone('processo-mastoide')" id="nav-processo-mastoide">
+        <span class="nav-dot" style="background:#ED93B1"></span>
+        Processo mastóide
+      </div>
+    </div>
+  </div>
+
+  <div class="canvas">
+    <svg width="320" height="360" viewBox="0 0 320 360" style="display:block;">
+      <defs>
+        <marker id="arr2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+          <path d="M2 1L8 5L2 9" fill="none" stroke="#888" stroke-width="1.5" stroke-linecap="round"/>
+        </marker>
+      </defs>
+
+      <g class="bone-region active" id="region-frontal" onclick="selectBone('frontal')">
+        <path d="M100,60 Q160,30 220,60 Q240,90 235,130 Q200,120 160,118 Q120,120 85,130 Q80,90 100,60Z" fill="#5DCAA5" fill-opacity="0.7" stroke="#0F6E56" stroke-width="1"/>
+        <text x="160" y="85" text-anchor="middle" font-size="10" fill="#085041" font-weight="500">frontal</text>
+      </g>
+
+      <g class="bone-region" id="region-parietal" onclick="selectBone('parietal')">
+        <path d="M85,130 Q120,120 160,118 Q200,120 235,130 Q245,170 235,200 Q200,195 160,193 Q120,195 85,200 Q75,170 85,130Z" fill="#AFA9EC" fill-opacity="0.7" stroke="#534AB7" stroke-width="1"/>
+        <text x="160" y="163" text-anchor="middle" font-size="10" fill="#3C3489" font-weight="500">parietal</text>
+      </g>
+
+      <g class="bone-region" id="region-occipital" onclick="selectBone('occipital')">
+        <path d="M85,200 Q120,195 160,193 Q200,195 235,200 Q250,240 240,275 Q200,290 160,293 Q120,290 80,275 Q70,240 85,200Z" fill="#F0997B" fill-opacity="0.7" stroke="#993C1D" stroke-width="1"/>
+        <text x="160" y="245" text-anchor="middle" font-size="10" fill="#712B13" font-weight="500">occipital</text>
+      </g>
+
+      <g class="bone-region" id="region-temporal" onclick="selectBone('temporal')">
+        <path d="M60,150 Q80,130 85,160 Q82,200 80,230 Q65,210 55,180 Q50,165 60,150Z" fill="#FAC775" fill-opacity="0.8" stroke="#854F0B" stroke-width="1"/>
+        <path d="M240,150 Q260,165 265,180 Q258,210 240,230 Q238,200 235,160 Q240,130 240,150Z" fill="#FAC775" fill-opacity="0.8" stroke="#854F0B" stroke-width="1"/>
+        <text x="42" y="190" text-anchor="middle" font-size="9" fill="#633806" font-weight="500">temp.</text>
+        <text x="278" y="190" text-anchor="middle" font-size="9" fill="#633806" font-weight="500">temp.</text>
+      </g>
+
+      <g class="bone-region" id="region-esfenóide" onclick="selectBone('esfenóide')">
+        <path d="M85,160 Q100,150 120,148 Q160,145 200,148 Q220,150 235,160 Q220,168 200,165 Q160,162 120,165 Q100,168 85,160Z" fill="#85B7EB" fill-opacity="0.8" stroke="#185FA5" stroke-width="1"/>
+        <text x="160" y="160" text-anchor="middle" font-size="9" fill="#0C447C" font-weight="500">esfenóide</text>
+      </g>
+
+      <g class="bone-region" id="region-forame-magno" onclick="selectBone('forame-magno')">
+        <ellipse cx="160" cy="285" rx="28" ry="18" fill="#EF9F27" fill-opacity="0.9" stroke="#854F0B" stroke-width="1.5" stroke-dasharray="4 2"/>
+        <text x="160" y="289" text-anchor="middle" font-size="9" fill="#412402" font-weight="500">f. magno</text>
+      </g>
+
+      <g class="bone-region" id="region-processo-mastoide" onclick="selectBone('processo-mastoide')">
+        <path d="M72,225 Q80,230 78,250 Q70,260 62,252 Q58,240 62,230Z" fill="#ED93B1" fill-opacity="0.9" stroke="#993556" stroke-width="1"/>
+        <path d="M248,225 Q252,230 258,240 Q262,252 248,252 Q240,250 242,230Z" fill="#ED93B1" fill-opacity="0.9" stroke="#993556" stroke-width="1"/>
+        <text x="40" y="248" text-anchor="middle" font-size="8" fill="#72243E" font-weight="500">mast.</text>
+        <text x="282" y="248" text-anchor="middle" font-size="8" fill="#72243E" font-weight="500">mast.</text>
+      </g>
+
+      <text x="160" y="330" text-anchor="middle" font-size="10" fill="#888" font-style="italic">vista superior — calota craniana</text>
+    </svg>
+
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#5DCAA5"></div>osso plano</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#EF9F27; border: 1px dashed #854F0B"></div>forame</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#ED93B1"></div>processo</div>
+    </div>
+  </div>
+
+  <div class="info-panel" id="info-panel">
+    <div class="panel-empty" id="panel-empty" style="display:none;">
+      <div style="width:32px;height:32px;border-radius:50%;background:var(--color-background-secondary);display:flex;align-items:center;justify-content:center;">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="var(--color-border-secondary)" stroke-width="1.5"/><path d="M8 5v3l2 2" stroke="var(--color-border-secondary)" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      Selecione uma estrutura no modelo ou na lista
+    </div>
+    <div id="panel-content">
+    </div>
+  </div>
+</div>
+
+<script>
+const dados = {
+  'frontal': {
+    lat: 'Os frontale',
+    pt: 'Osso frontal',
+    tipo: 'osso plano',
+    sistema: 'osteoarticular',
+    regiao: 'neurocrânio',
+    descricao: 'Osso ímpar que forma a fronte e o teto das órbitas oculares. Apresenta a escama frontal, as partes orbitárias e a parte nasal.',
+    articulacoes: ['Osso parietal', 'Osso esfenóide', 'Osso zigomático', 'Osso nasal', 'Osso lacrimal', 'Osso etmóide'],
+    partes: [
+      { nome: 'Escama frontal', tipo: 'região', cor: '#5DCAA5' },
+      { nome: 'Glabela', tipo: 'processo', cor: '#AFA9EC' },
+      { nome: 'Arco superciliar', tipo: 'região', cor: '#5DCAA5' },
+      { nome: 'Forame supraorbital', tipo: 'forame', cor: '#EF9F27' },
+    ],
+    ref: ["Gray's Anatomy, cap. 3", "Netter, prancha 4-6"],
+    status: 'revisado',
+    cor: '#5DCAA5'
+  },
+  'parietal': {
+    lat: 'Os parietale',
+    pt: 'Osso parietal',
+    tipo: 'osso plano',
+    sistema: 'osteoarticular',
+    regiao: 'neurocrânio',
+    descricao: 'Osso par que forma as partes laterais e superiores do crânio. Apresenta quatro bordas e quatro ângulos, articulando-se com cinco ossos.',
+    articulacoes: ['Osso frontal', 'Osso occipital', 'Osso temporal', 'Osso esfenóide', 'Osso parietal contralateral'],
+    partes: [
+      { nome: 'Face externa', tipo: 'região', cor: '#AFA9EC' },
+      { nome: 'Face interna', tipo: 'região', cor: '#AFA9EC' },
+      { nome: 'Forame parietal', tipo: 'forame', cor: '#EF9F27' },
+      { nome: 'Tuberosidade parietal', tipo: 'processo', cor: '#ED93B1' },
+    ],
+    ref: ["Gray's Anatomy, cap. 3", "Netter, prancha 6-8"],
+    status: 'revisado',
+    cor: '#AFA9EC'
+  },
+  'occipital': {
+    lat: 'Os occipitale',
+    pt: 'Osso occipital',
+    tipo: 'osso plano',
+    sistema: 'osteoarticular',
+    regiao: 'neurocrânio',
+    descricao: 'Osso ímpar que forma a parte posterior e inferior do crânio. Circunda o forame magno, pelo qual passa a medula espinal.',
+    articulacoes: ['Osso parietal', 'Osso temporal', 'Osso esfenóide', 'Atlas (C1)'],
+    partes: [
+      { nome: 'Escama occipital', tipo: 'região', cor: '#F0997B' },
+      { nome: 'Côndilo occipital', tipo: 'processo', cor: '#ED93B1' },
+      { nome: 'Forame magno', tipo: 'forame', cor: '#EF9F27' },
+      { nome: 'Protuberância occipital ext.', tipo: 'processo', cor: '#ED93B1' },
+    ],
+    ref: ["Gray's Anatomy, cap. 3", "Netter, prancha 8-10"],
+    status: 'revisado',
+    cor: '#F0997B'
+  },
+  'temporal': {
+    lat: 'Os temporale',
+    pt: 'Osso temporal',
+    tipo: 'osso irregular',
+    sistema: 'osteoarticular',
+    regiao: 'neurocrânio',
+    descricao: 'Osso par situado nas regiões laterais e base do crânio. Abriga o ouvido médio e interno. Articula-se com a mandíbula pela ATM.',
+    articulacoes: ['Osso parietal', 'Osso occipital', 'Osso esfenóide', 'Osso zigomático', 'Mandíbula (ATM)'],
+    partes: [
+      { nome: 'Parte escamosa', tipo: 'região', cor: '#FAC775' },
+      { nome: 'Processo mastóide', tipo: 'processo', cor: '#ED93B1' },
+      { nome: 'Processo estilóide', tipo: 'processo', cor: '#ED93B1' },
+      { nome: 'Meato acústico externo', tipo: 'forame', cor: '#EF9F27' },
+    ],
+    ref: ["Gray's Anatomy, cap. 3", "Netter, prancha 10-12"],
+    status: 'revisado',
+    cor: '#FAC775'
+  },
+  'esfenóide': {
+    lat: 'Os sphenoidale',
+    pt: 'Osso esfenóide',
+    tipo: 'osso irregular',
+    sistema: 'osteoarticular',
+    regiao: 'neurocrânio',
+    descricao: 'Osso ímpar situado na base do crânio, em forma de borboleta. Articula-se com todos os outros ossos do crânio.',
+    articulacoes: ['Osso frontal', 'Osso parietal', 'Osso occipital', 'Osso temporal', 'Osso etmóide'],
+    partes: [
+      { nome: 'Corpo', tipo: 'região', cor: '#85B7EB' },
+      { nome: 'Asas maiores', tipo: 'região', cor: '#85B7EB' },
+      { nome: 'Asas menores', tipo: 'região', cor: '#85B7EB' },
+      { nome: 'Sela túrcica', tipo: 'processo', cor: '#ED93B1' },
+      { nome: 'Forame oval', tipo: 'forame', cor: '#EF9F27' },
+    ],
+    ref: ["Gray's Anatomy, cap. 3", "Netter, prancha 12-14"],
+    status: 'rascunho',
+    cor: '#85B7EB'
+  },
+  'forame-magno': {
+    lat: 'Foramen magnum',
+    pt: 'Forame magno',
+    tipo: 'forame',
+    sistema: 'osteoarticular',
+    regiao: 'neurocrânio — osso occipital',
+    descricao: 'Grande abertura na base do osso occipital pela qual passam a medula espinal, as artérias vertebrais e o nervo acessório (XI par craniano).',
+    articulacoes: [],
+    partes: [],
+    ref: ["Gray's Anatomy, cap. 3", "Netter, prancha 9"],
+    status: 'revisado',
+    cor: '#EF9F27'
+  },
+  'processo-mastoide': {
+    lat: 'Processus mastoideus',
+    pt: 'Processo mastóide',
+    tipo: 'processo',
+    sistema: 'osteoarticular',
+    regiao: 'neurocrânio — osso temporal',
+    descricao: 'Projeção cônica do osso temporal, posterior ao meato acústico externo. Serve de inserção ao músculo esternocleidomastóideo.',
+    articulacoes: [],
+    inserções: ['M. esternocleidomastóideo', 'M. esplênio da cabeça', 'M. digástrico (ventre posterior)'],
+    partes: [],
+    ref: ["Gray's Anatomy, cap. 3", "Netter, prancha 11"],
+    status: 'revisado',
+    cor: '#ED93B1'
+  },
+};
+
+let atual = 'frontal';
+
+function getBadgeClass(tipo) {
+  if (tipo === 'forame') return 'badge badge-forame';
+  if (tipo.includes('processo')) return 'badge badge-processo';
+  if (tipo.includes('plano')) return 'badge badge-plano';
+  return 'badge badge-osso';
+}
+
+function renderPanel(id) {
+  const d = dados[id];
+  if (!d) return;
+  const isProcessoOuForame = d.tipo === 'forame' || d.tipo === 'processo';
+  
+  let partsHTML = '';
+  if (d.partes && d.partes.length > 0) {
+    partsHTML = `<div class="section-label">Partes e acidentes</div>
+    <div class="parts-list">
+      ${d.partes.map(p => `<div class="part-item"><div class="part-dot" style="background:${p.cor}"></div>${p.nome} <span style="font-size:11px;color:var(--color-text-tertiary);margin-left:auto">${p.tipo}</span></div>`).join('')}
+    </div>`;
+  }
+
+  let artOuInsHTML = '';
+  if (!isProcessoOuForame && d.articulacoes && d.articulacoes.length > 0) {
+    artOuInsHTML = `<div class="section-label">Articula-se com</div>
+    <div class="tag-list">${d.articulacoes.map(a => `<span class="tag">${a}</span>`).join('')}</div>`;
+  }
+  if (d.inserções && d.inserções.length > 0) {
+    artOuInsHTML += `<div class="section-label" style="margin-top:10px">Inserção muscular</div>
+    <div class="tag-list">${d.inserções.map(a => `<span class="tag">${a}</span>`).join('')}</div>`;
+  }
+
+  document.getElementById('panel-content').innerHTML = `
+    <div class="tab-bar">
+      <div class="tab active" onclick="switchTab(this,'tab-morfologia')">Morfologia</div>
+      <div class="tab" onclick="switchTab(this,'tab-histologia')">Histologia</div>
+      <div class="tab" onclick="switchTab(this,'tab-clinica')">Clínica</div>
+    </div>
+
+    <div class="tab-content active" id="tab-morfologia">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+        <div style="width:12px;height:12px;border-radius:50%;background:${d.cor};flex-shrink:0"></div>
+        <div class="panel-nome-lat">${d.lat}</div>
+      </div>
+      <div class="panel-nome-pt">${d.pt}</div>
+      <div class="panel-badges">
+        <span class="${getBadgeClass(d.tipo)}">${d.tipo}</span>
+        <span class="badge" style="background:var(--color-background-secondary);color:var(--color-text-secondary)">${d.regiao}</span>
+        <span class="badge" style="background:${d.status==='revisado'?'#E1F5EE':'#FAEEDA'};color:${d.status==='revisado'?'#085041':'#633806'}">${d.status}</span>
+      </div>
+      <div class="divider"></div>
+      <div class="section-label">Descrição</div>
+      <div class="section-text">${d.descricao}</div>
+      ${partsHTML ? '<div class="divider"></div>' + partsHTML : ''}
+      ${artOuInsHTML ? '<div class="divider"></div>' + artOuInsHTML : ''}
+      <div class="divider"></div>
+      <div class="section-label">Referências</div>
+      <div class="tag-list">${d.ref.map(r => `<span class="tag">${r}</span>`).join('')}</div>
+    </div>
+
+    <div class="tab-content" id="tab-histologia">
+      <div style="padding: 24px 0; text-align:center">
+        <span class="future-badge">Etapa 2 — em desenvolvimento</span>
+        <div style="font-size:13px;color:var(--color-text-tertiary);margin-top:12px;line-height:1.6">Caracterização histológica dos tecidos<br>associados a esta estrutura.</div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="tab-clinica">
+      <div style="padding: 24px 0; text-align:center">
+        <span class="future-badge">Etapa 4 — em desenvolvimento</span>
+        <div style="font-size:13px;color:var(--color-text-tertiary);margin-top:12px;line-height:1.6">Correlações clínicas e casos associados<br>a esta estrutura.</div>
+      </div>
+    </div>
+  `;
+}
+
+function switchTab(el, tabId) {
+  el.closest('.tab-bar').querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.getElementById(tabId).classList.add('active');
+}
+
+function selectBone(id) {
+  atual = id;
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const nav = document.getElementById('nav-' + id);
+  if (nav) nav.classList.add('active');
+  document.querySelectorAll('.bone-region').forEach(r => r.classList.remove('active','dimmed'));
+  const region = document.getElementById('region-' + id);
+  if (region) {
+    region.classList.add('active');
+    document.querySelectorAll('.bone-region').forEach(r => { if (r !== region) r.classList.add('dimmed'); });
+  }
+  renderPanel(id);
+}
+
+selectBone('frontal');
+</script>
