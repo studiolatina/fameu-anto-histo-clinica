@@ -1,0 +1,452 @@
+{
+  "meta": {
+    "regiao": "Neurocrânio",
+    "regiao_slug": "neurocranium",
+    "sistema": "osteoarticular",
+    "total_estruturas": 8,
+    "status": "em andamento",
+    "versao": 1,
+    "atualizado_em": "2026-04-09"
+  },
+  "estruturas": [
+    {
+      "id": "a1f2c3d4-0001-4000-8000-000000000001",
+      "slug": "os-frontale",
+      "ta2_id": null,
+      "names": {
+        "la": "Os frontale",
+        "pt": "Osso frontal",
+        "en": "Frontal bone"
+      },
+      "hierarchy": {
+        "parent_slug": "neurocranium",
+        "relation_type": "part_of",
+        "children_slugs": [
+          "squama-frontalis",
+          "pars-orbitalis",
+          "sinus-frontalis"
+        ]
+      },
+      "classification": {
+        "sistema": "osteoarticular",
+        "regiao": "neurocrânio",
+        "tipo": "osso",
+        "subtipo": "osso plano"
+      },
+      "morphology": {
+        "descricao": "Osso plano e ímpar que forma a fronte, o teto das órbitas e parte da fossa craniana anterior. Contém os seios frontais.",
+        "funcao": "Proteção do lobo frontal e formação do teto orbitário",
+        "partes": [
+          { "slug": "squama-frontalis", "names": { "la": "Squama frontalis", "pt": "Escama frontal" }, "tipo": "região", "cor": "#5DCAA5" },
+          { "slug": "pars-orbitalis", "names": { "la": "Pars orbitalis", "pt": "Parte orbitária" }, "tipo": "região", "cor": "#5DCAA5" },
+          { "slug": "sinus-frontalis", "names": { "la": "Sinus frontalis", "pt": "Seio frontal" }, "tipo": "região", "cor": "#5DCAA5" }
+        ],
+        "articulacoes_slugs": [
+          "os-parietale",
+          "os-sphenoidale",
+          "os-ethmoidale"
+        ],
+        "insercoes_musculares": []
+      },
+      "histology": null,
+      "embryology": null,
+      "clinical": null,
+      "media": {
+        "cor_interface": "#5DCAA5",
+        "sketchfab_annotation": 0,
+        "imagens": []
+      },
+      "references": [
+        { "obra": "Gray's Anatomy", "edicao": "42ª ed.", "capitulo": "3" },
+        { "obra": "Netter", "edicao": "7ª ed.", "prancha": "8–10" }
+      ],
+      "metadata": {
+        "status": "revisado",
+        "revisado_por": null,
+        "criado_em": "2026-04-09",
+        "atualizado_em": "2026-04-09",
+        "versao": 1
+      }
+    },
+    {
+      "id": "a1f2c3d4-0002-4000-8000-000000000002",
+      "slug": "os-parietale",
+      "ta2_id": null,
+      "names": {
+        "la": "Os parietale",
+        "pt": "Osso parietal",
+        "en": "Parietal bone"
+      },
+      "hierarchy": {
+        "parent_slug": "neurocranium",
+        "relation_type": "part_of",
+        "children_slugs": []
+      },
+      "classification": {
+        "sistema": "osteoarticular",
+        "regiao": "neurocrânio",
+        "tipo": "osso",
+        "subtipo": "osso plano"
+      },
+      "morphology": {
+        "descricao": "Osso plano e par que forma as faces laterais e superiores do crânio. Limita-se com o frontal, occipital, temporal e esfenóide.",
+        "funcao": "Proteção do lobo parietal",
+        "partes": [],
+        "articulacoes_slugs": [
+          "os-frontale",
+          "os-occipitale",
+          "os-temporale",
+          "os-sphenoidale"
+        ],
+        "insercoes_musculares": []
+      },
+      "histology": null,
+      "embryology": null,
+      "clinical": null,
+      "media": {
+        "cor_interface": "#AFA9EC",
+        "sketchfab_annotation": 1,
+        "imagens": []
+      },
+      "references": [
+        { "obra": "Gray's Anatomy", "edicao": "42ª ed.", "capitulo": "3" },
+        { "obra": "Netter", "edicao": "7ª ed.", "prancha": "8–10" }
+      ],
+      "metadata": {
+        "status": "rascunho",
+        "revisado_por": null,
+        "criado_em": "2026-04-09",
+        "atualizado_em": "2026-04-09",
+        "versao": 1
+      }
+    },
+    {
+      "id": "a1f2c3d4-0003-4000-8000-000000000003",
+      "slug": "os-occipitale",
+      "ta2_id": null,
+      "names": {
+        "la": "Os occipitale",
+        "pt": "Osso occipital",
+        "en": "Occipital bone"
+      },
+      "hierarchy": {
+        "parent_slug": "neurocranium",
+        "relation_type": "part_of",
+        "children_slugs": ["foramen-magnum"]
+      },
+      "classification": {
+        "sistema": "osteoarticular",
+        "regiao": "neurocrânio",
+        "tipo": "osso",
+        "subtipo": "osso plano"
+      },
+      "morphology": {
+        "descricao": "Osso ímpar que forma a base e a parte posterior do crânio. Contém o forame magno, pelo qual passa a medula espinal.",
+        "funcao": "Proteção do cerebelo e tronco encefálico; articulação com a coluna cervical",
+        "partes": [
+          { "slug": "squama-occipitalis", "names": { "la": "Squama occipitalis", "pt": "Escama occipital" }, "tipo": "região", "cor": "#F0997B" },
+          { "slug": "pars-basilaris", "names": { "la": "Pars basilaris", "pt": "Parte basilar" }, "tipo": "região", "cor": "#F0997B" },
+          { "slug": "condylus-occipitalis", "names": { "la": "Condylus occipitalis", "pt": "Côndilo occipital" }, "tipo": "processo", "cor": "#ED93B1" }
+        ],
+        "articulacoes_slugs": [
+          "os-parietale",
+          "os-temporale",
+          "os-sphenoidale",
+          "atlas-c1"
+        ],
+        "insercoes_musculares": []
+      },
+      "histology": null,
+      "embryology": null,
+      "clinical": null,
+      "media": {
+        "cor_interface": "#F0997B",
+        "sketchfab_annotation": 2,
+        "imagens": []
+      },
+      "references": [
+        { "obra": "Gray's Anatomy", "edicao": "42ª ed.", "capitulo": "3" },
+        { "obra": "Netter", "edicao": "7ª ed.", "prancha": "9" }
+      ],
+      "metadata": {
+        "status": "rascunho",
+        "revisado_por": null,
+        "criado_em": "2026-04-09",
+        "atualizado_em": "2026-04-09",
+        "versao": 1
+      }
+    },
+    {
+      "id": "a1f2c3d4-0004-4000-8000-000000000004",
+      "slug": "os-temporale",
+      "ta2_id": null,
+      "names": {
+        "la": "Os temporale",
+        "pt": "Osso temporal",
+        "en": "Temporal bone"
+      },
+      "hierarchy": {
+        "parent_slug": "neurocranium",
+        "relation_type": "part_of",
+        "children_slugs": ["processus-mastoideus", "meatus-acusticus-externus"]
+      },
+      "classification": {
+        "sistema": "osteoarticular",
+        "regiao": "neurocrânio",
+        "tipo": "osso",
+        "subtipo": "osso irregular"
+      },
+      "morphology": {
+        "descricao": "Osso par que forma as regiões laterais e parte da base do crânio. Contém os órgãos da audição e equilíbrio.",
+        "funcao": "Proteção do lobo temporal e alojamento do ouvido interno",
+        "partes": [
+          { "slug": "processus-mastoideus", "names": { "la": "Processus mastoideus", "pt": "Processo mastóide" }, "tipo": "processo", "cor": "#ED93B1" },
+          { "slug": "processus-styloideus", "names": { "la": "Processus styloideus", "pt": "Processo estilóide" }, "tipo": "processo", "cor": "#ED93B1" },
+          { "slug": "meatus-acusticus-externus", "names": { "la": "Meatus acusticus externus", "pt": "Meato acústico externo" }, "tipo": "forame", "cor": "#EF9F27" }
+        ],
+        "articulacoes_slugs": [
+          "os-parietale",
+          "os-occipitale",
+          "os-sphenoidale",
+          "mandibula"
+        ],
+        "insercoes_musculares": []
+      },
+      "histology": null,
+      "embryology": null,
+      "clinical": null,
+      "media": {
+        "cor_interface": "#FAC775",
+        "sketchfab_annotation": 3,
+        "imagens": []
+      },
+      "references": [
+        { "obra": "Gray's Anatomy", "edicao": "42ª ed.", "capitulo": "3" },
+        { "obra": "Netter", "edicao": "7ª ed.", "prancha": "10–12" }
+      ],
+      "metadata": {
+        "status": "revisado",
+        "revisado_por": null,
+        "criado_em": "2026-04-09",
+        "atualizado_em": "2026-04-09",
+        "versao": 1
+      }
+    },
+    {
+      "id": "a1f2c3d4-0005-4000-8000-000000000005",
+      "slug": "os-sphenoidale",
+      "ta2_id": null,
+      "names": {
+        "la": "Os sphenoidale",
+        "pt": "Osso esfenóide",
+        "en": "Sphenoid bone"
+      },
+      "hierarchy": {
+        "parent_slug": "neurocranium",
+        "relation_type": "part_of",
+        "children_slugs": ["sella-turcica", "foramen-ovale"]
+      },
+      "classification": {
+        "sistema": "osteoarticular",
+        "regiao": "neurocrânio",
+        "tipo": "osso",
+        "subtipo": "osso irregular"
+      },
+      "morphology": {
+        "descricao": "Osso ímpar situado na base do crânio, em forma de borboleta. Articula-se com todos os outros ossos do crânio.",
+        "funcao": "Formação da base do crânio e das paredes laterais das órbitas",
+        "partes": [
+          { "slug": "corpus-ossis-sphenoidalis", "names": { "la": "Corpus", "pt": "Corpo" }, "tipo": "região", "cor": "#85B7EB" },
+          { "slug": "alae-majores", "names": { "la": "Alae majores", "pt": "Asas maiores" }, "tipo": "região", "cor": "#85B7EB" },
+          { "slug": "alae-minores", "names": { "la": "Alae minores", "pt": "Asas menores" }, "tipo": "região", "cor": "#85B7EB" },
+          { "slug": "sella-turcica", "names": { "la": "Sella turcica", "pt": "Sela túrcica" }, "tipo": "processo", "cor": "#ED93B1" },
+          { "slug": "foramen-ovale", "names": { "la": "Foramen ovale", "pt": "Forame oval" }, "tipo": "forame", "cor": "#EF9F27" }
+        ],
+        "articulacoes_slugs": [
+          "os-frontale",
+          "os-parietale",
+          "os-occipitale",
+          "os-temporale",
+          "os-ethmoidale"
+        ],
+        "insercoes_musculares": []
+      },
+      "histology": null,
+      "embryology": null,
+      "clinical": null,
+      "media": {
+        "cor_interface": "#85B7EB",
+        "sketchfab_annotation": 4,
+        "imagens": []
+      },
+      "references": [
+        { "obra": "Gray's Anatomy", "edicao": "42ª ed.", "capitulo": "3" },
+        { "obra": "Netter", "edicao": "7ª ed.", "prancha": "12–14" }
+      ],
+      "metadata": {
+        "status": "rascunho",
+        "revisado_por": null,
+        "criado_em": "2026-04-09",
+        "atualizado_em": "2026-04-09",
+        "versao": 1
+      }
+    },
+    {
+      "id": "a1f2c3d4-0006-4000-8000-000000000006",
+      "slug": "os-ethmoidale",
+      "ta2_id": null,
+      "names": {
+        "la": "Os ethmoidale",
+        "pt": "Osso etmóide",
+        "en": "Ethmoid bone"
+      },
+      "hierarchy": {
+        "parent_slug": "neurocranium",
+        "relation_type": "part_of",
+        "children_slugs": ["lamina-cribrosa", "crista-galli"]
+      },
+      "classification": {
+        "sistema": "osteoarticular",
+        "regiao": "neurocrânio",
+        "tipo": "osso",
+        "subtipo": "osso irregular"
+      },
+      "morphology": {
+        "descricao": "Osso ímpar, leve e esponjoso, situado na base anterior do crânio. Participa da formação do septo nasal e das paredes mediais das órbitas.",
+        "funcao": "Suporte da lâmina cribiforme e separação das cavidades nasais",
+        "partes": [
+          { "slug": "lamina-cribrosa", "names": { "la": "Lamina cribrosa", "pt": "Lâmina cribiforme" }, "tipo": "região", "cor": "#C0DD97" },
+          { "slug": "lamina-perpendicularis", "names": { "la": "Lamina perpendicularis", "pt": "Lâmina perpendicular" }, "tipo": "região", "cor": "#C0DD97" },
+          { "slug": "labyrinthus-ethmoidalis", "names": { "la": "Labyrinthus ethmoidalis", "pt": "Labirinto etmoidal" }, "tipo": "região", "cor": "#C0DD97" },
+          { "slug": "crista-galli", "names": { "la": "Crista galli", "pt": "Crista de galo" }, "tipo": "processo", "cor": "#ED93B1" }
+        ],
+        "articulacoes_slugs": [
+          "os-frontale",
+          "os-sphenoidale",
+          "os-nasale",
+          "maxilla",
+          "os-lacrimale",
+          "os-palatinum"
+        ],
+        "insercoes_musculares": []
+      },
+      "histology": null,
+      "embryology": null,
+      "clinical": null,
+      "media": {
+        "cor_interface": "#C0DD97",
+        "sketchfab_annotation": 5,
+        "imagens": []
+      },
+      "references": [
+        { "obra": "Gray's Anatomy", "edicao": "42ª ed.", "capitulo": "3" },
+        { "obra": "Netter", "edicao": "7ª ed.", "prancha": "14–16" }
+      ],
+      "metadata": {
+        "status": "rascunho",
+        "revisado_por": null,
+        "criado_em": "2026-04-09",
+        "atualizado_em": "2026-04-09",
+        "versao": 1
+      }
+    },
+    {
+      "id": "a1f2c3d4-0007-4000-8000-000000000007",
+      "slug": "foramen-magnum",
+      "ta2_id": null,
+      "names": {
+        "la": "Foramen magnum",
+        "pt": "Forame magno",
+        "en": "Foramen magnum"
+      },
+      "hierarchy": {
+        "parent_slug": "os-occipitale",
+        "relation_type": "part_of",
+        "children_slugs": []
+      },
+      "classification": {
+        "sistema": "osteoarticular",
+        "regiao": "neurocrânio — osso occipital",
+        "tipo": "forame",
+        "subtipo": null
+      },
+      "morphology": {
+        "descricao": "Grande abertura na base do osso occipital pela qual passam a medula espinal, as artérias vertebrais e o nervo acessório (XI par craniano).",
+        "funcao": "Passagem da medula espinal e estruturas neurovasculares",
+        "partes": [],
+        "articulacoes_slugs": [],
+        "insercoes_musculares": []
+      },
+      "histology": null,
+      "embryology": null,
+      "clinical": null,
+      "media": {
+        "cor_interface": "#EF9F27",
+        "sketchfab_annotation": 6,
+        "imagens": []
+      },
+      "references": [
+        { "obra": "Gray's Anatomy", "edicao": "42ª ed.", "capitulo": "3" },
+        { "obra": "Netter", "edicao": "7ª ed.", "prancha": "9" }
+      ],
+      "metadata": {
+        "status": "revisado",
+        "revisado_por": null,
+        "criado_em": "2026-04-09",
+        "atualizado_em": "2026-04-09",
+        "versao": 1
+      }
+    },
+    {
+      "id": "a1f2c3d4-0008-4000-8000-000000000008",
+      "slug": "processus-mastoideus",
+      "ta2_id": null,
+      "names": {
+        "la": "Processus mastoideus",
+        "pt": "Processo mastóide",
+        "en": "Mastoid process"
+      },
+      "hierarchy": {
+        "parent_slug": "os-temporale",
+        "relation_type": "part_of",
+        "children_slugs": []
+      },
+      "classification": {
+        "sistema": "osteoarticular",
+        "regiao": "neurocrânio — osso temporal",
+        "tipo": "processo",
+        "subtipo": null
+      },
+      "morphology": {
+        "descricao": "Projeção cônica do osso temporal, posterior ao meato acústico externo. Serve de inserção ao músculo esternocleidomastóideo.",
+        "funcao": "Inserção muscular e pneumatização do osso temporal",
+        "partes": [],
+        "articulacoes_slugs": [],
+        "insercoes_musculares": [
+          "M. esternocleidomastóideo",
+          "M. esplênio da cabeça",
+          "M. digástrico (ventre posterior)"
+        ]
+      },
+      "histology": null,
+      "embryology": null,
+      "clinical": null,
+      "media": {
+        "cor_interface": "#ED93B1",
+        "sketchfab_annotation": 7,
+        "imagens": []
+      },
+      "references": [
+        { "obra": "Gray's Anatomy", "edicao": "42ª ed.", "capitulo": "3" },
+        { "obra": "Netter", "edicao": "7ª ed.", "prancha": "11" }
+      ],
+      "metadata": {
+        "status": "revisado",
+        "revisado_por": null,
+        "criado_em": "2026-04-09",
+        "atualizado_em": "2026-04-09",
+        "versao": 1
+      }
+    }
+  ]
+}
