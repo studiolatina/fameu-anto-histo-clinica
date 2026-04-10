@@ -1,0 +1,146 @@
+{
+  "meta": {
+    "regiao": "Neurocrânio",
+    "versao": 1,
+    "nota": "Schema inicial extraído do protótipo v1.2 — dados embutidos no HTML",
+    "atualizado_em": "2026-04-09"
+  },
+  "estruturas": {
+    "frontal": {
+      "lat": "Os frontale",
+      "pt": "Osso frontal",
+      "tipo": "osso",
+      "sistema": "osteoarticular",
+      "regiao": "neurocrânio",
+      "descricao": "Osso plano e ímpar que forma a fronte, o teto das órbitas e parte da fossa craniana anterior. Contém os seios frontais.",
+      "articulacoes": ["Osso parietal", "Osso esfenóide", "Osso etmóide"],
+      "partes": [
+        { "nome": "Escama frontal", "tipo": "região", "cor": "#5DCAA5" },
+        { "nome": "Parte orbitária", "tipo": "região", "cor": "#5DCAA5" },
+        { "nome": "Seio frontal", "tipo": "região", "cor": "#5DCAA5" }
+      ],
+      "ref": ["Gray's Anatomy, cap. 3", "Netter, prancha 8–10"],
+      "status": "revisado",
+      "cor": "#5DCAA5",
+      "sketchfabAnnotation": 0
+    },
+    "parietal": {
+      "lat": "Os parietale",
+      "pt": "Osso parietal",
+      "tipo": "osso",
+      "sistema": "osteoarticular",
+      "regiao": "neurocrânio",
+      "descricao": "Osso plano e par que forma as faces laterais e superiores do crânio.",
+      "articulacoes": ["Osso frontal", "Osso occipital", "Osso temporal", "Osso esfenóide"],
+      "partes": [],
+      "ref": ["Gray's Anatomy, cap. 3", "Netter, prancha 8–10"],
+      "status": "rascunho",
+      "cor": "#AFA9EC",
+      "sketchfabAnnotation": 1
+    },
+    "occipital": {
+      "lat": "Os occipitale",
+      "pt": "Osso occipital",
+      "tipo": "osso",
+      "sistema": "osteoarticular",
+      "regiao": "neurocrânio",
+      "descricao": "Osso ímpar que forma a base e a parte posterior do crânio. Contém o forame magno.",
+      "articulacoes": ["Osso parietal", "Osso temporal", "Osso esfenóide"],
+      "partes": [
+        { "nome": "Escama occipital", "tipo": "região", "cor": "#F0997B" },
+        { "nome": "Parte basilar", "tipo": "região", "cor": "#F0997B" },
+        { "nome": "Côndilo occipital", "tipo": "processo", "cor": "#ED93B1" }
+      ],
+      "ref": ["Gray's Anatomy, cap. 3", "Netter, prancha 9"],
+      "status": "rascunho",
+      "cor": "#F0997B",
+      "sketchfabAnnotation": 2
+    },
+    "temporal": {
+      "lat": "Os temporale",
+      "pt": "Osso temporal",
+      "tipo": "osso irregular",
+      "sistema": "osteoarticular",
+      "regiao": "neurocrânio",
+      "descricao": "Osso par que forma as regiões laterais e parte da base do crânio. Contém os órgãos da audição e equilíbrio.",
+      "articulacoes": ["Osso parietal", "Osso occipital", "Osso esfenóide", "Mandíbula"],
+      "partes": [
+        { "nome": "Processo mastóide", "tipo": "processo", "cor": "#ED93B1" },
+        { "nome": "Processo estilóide", "tipo": "processo", "cor": "#ED93B1" },
+        { "nome": "Meato acústico externo", "tipo": "forame", "cor": "#EF9F27" }
+      ],
+      "ref": ["Gray's Anatomy, cap. 3", "Netter, prancha 10–12"],
+      "status": "revisado",
+      "cor": "#FAC775",
+      "sketchfabAnnotation": 3
+    },
+    "esfenóide": {
+      "lat": "Os sphenoidale",
+      "pt": "Osso esfenóide",
+      "tipo": "osso irregular",
+      "sistema": "osteoarticular",
+      "regiao": "neurocrânio",
+      "descricao": "Osso ímpar situado na base do crânio, em forma de borboleta. Articula-se com todos os outros ossos do crânio.",
+      "articulacoes": ["Osso frontal", "Osso parietal", "Osso occipital", "Osso temporal", "Osso etmóide"],
+      "partes": [
+        { "nome": "Corpo", "tipo": "região", "cor": "#85B7EB" },
+        { "nome": "Asas maiores", "tipo": "região", "cor": "#85B7EB" },
+        { "nome": "Asas menores", "tipo": "região", "cor": "#85B7EB" },
+        { "nome": "Sela túrcica", "tipo": "processo", "cor": "#ED93B1" },
+        { "nome": "Forame oval", "tipo": "forame", "cor": "#EF9F27" }
+      ],
+      "ref": ["Gray's Anatomy, cap. 3", "Netter, prancha 12–14"],
+      "status": "rascunho",
+      "cor": "#85B7EB",
+      "sketchfabAnnotation": 4
+    },
+    "etmóide": {
+      "lat": "Os ethmoidale",
+      "pt": "Osso etmóide",
+      "tipo": "osso irregular",
+      "sistema": "osteoarticular",
+      "regiao": "neurocrânio",
+      "descricao": "Osso ímpar, leve e esponjoso, situado na base anterior do crânio. Participa da formação do septo nasal e das paredes mediais das órbitas.",
+      "articulacoes": ["Osso frontal", "Osso esfenóide", "Osso nasal", "Maxila", "Osso lacrimal", "Osso palatino"],
+      "partes": [
+        { "nome": "Lâmina cribiforme", "tipo": "região", "cor": "#C0DD97" },
+        { "nome": "Lâmina perpendicular", "tipo": "região", "cor": "#C0DD97" },
+        { "nome": "Labirinto etmoidal", "tipo": "região", "cor": "#C0DD97" },
+        { "nome": "Crista de galo", "tipo": "processo", "cor": "#ED93B1" }
+      ],
+      "ref": ["Gray's Anatomy, cap. 3", "Netter, prancha 14–16"],
+      "status": "rascunho",
+      "cor": "#C0DD97",
+      "sketchfabAnnotation": 5
+    },
+    "forame-magno": {
+      "lat": "Foramen magnum",
+      "pt": "Forame magno",
+      "tipo": "forame",
+      "sistema": "osteoarticular",
+      "regiao": "neurocrânio — osso occipital",
+      "descricao": "Grande abertura na base do osso occipital pela qual passam a medula espinal, as artérias vertebrais e o nervo acessório (XI par craniano).",
+      "articulacoes": [],
+      "partes": [],
+      "ref": ["Gray's Anatomy, cap. 3", "Netter, prancha 9"],
+      "status": "revisado",
+      "cor": "#EF9F27",
+      "sketchfabAnnotation": 6
+    },
+    "processo-mastoide": {
+      "lat": "Processus mastoideus",
+      "pt": "Processo mastóide",
+      "tipo": "processo",
+      "sistema": "osteoarticular",
+      "regiao": "neurocrânio — osso temporal",
+      "descricao": "Projeção cônica do osso temporal, posterior ao meato acústico externo. Serve de inserção ao músculo esternocleidomastóideo.",
+      "articulacoes": [],
+      "inserções": ["M. esternocleidomastóideo", "M. esplênio da cabeça", "M. digástrico (ventre posterior)"],
+      "partes": [],
+      "ref": ["Gray's Anatomy, cap. 3", "Netter, prancha 11"],
+      "status": "revisado",
+      "cor": "#ED93B1",
+      "sketchfabAnnotation": 7
+    }
+  }
+}
