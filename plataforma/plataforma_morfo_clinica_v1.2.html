@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plataforma Morfo-Clínica — FAMEU</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #F7F6F3;
+  --bg2: #EFEDE8;
+  --bg3: #E6E3DC;
+  --border: #D8D4CB;
+  --text: #1A1916;
+  --text2: #5C5A54;
+  --text3: #9C9990;
+  --accent: #2D6A4F;
+  --accent-light: #E1F0E8;
+  --font-sans: 'IBM Plex Sans', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+  --radius: 6px;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* HEADER */
+.header {
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg);
+  flex-shrink: 0;
+}
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.header-logo {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+.header-sep { width: 1px; height: 16px; background: var(--border); }
+.header-path {
+  font-size: 12px;
+  color: var(--text3);
+  font-family: var(--font-mono);
+}
+.header-path span { color: var(--text2); }
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.etapa-badge {
+  font-size: 10px;
+  font-family: var(--font-mono);
+  padding: 3px 8px;
+  border-radius: 3px;
+  border: 1px solid var(--border);
+  color: var(--text3);
+  background: var(--bg2);
+}
+.etapa-badge.active {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-light);
+}
+
+/* LAYOUT PRINCIPAL */
+.app {
+  display: grid;
+  grid-template-columns: 200px 1fr 300px;
+  flex: 1;
+  min-height: 0;
+  height: calc(100vh - 48px);
+}
+
+/* SIDEBAR */
+.sidebar {
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--bg);
+}
+.sidebar-header {
+  padding: 14px 16px 12px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.sidebar-module {
+  font-size: 11px;
+  font-family: var(--font-mono);
+  color: var(--text3);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 3px;
+}
+.sidebar-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+}
+.sidebar-count {
+  font-size: 11px;
+  color: var(--text3);
+  margin-top: 1px;
+}
+.sidebar-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 0;
+}
+.sidebar-body::-webkit-scrollbar { width: 4px; }
+.sidebar-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+.section-group { margin-bottom: 4px; }
+.section-label-nav {
+  font-size: 10px;
+  font-family: var(--font-mono);
+  color: var(--text3);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 8px 16px 4px;
+}
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  cursor: pointer;
+  font-size: 12.5px;
+  color: var(--text2);
+  transition: background 0.1s;
+  border-left: 2px solid transparent;
+}
+.nav-item:hover { background: var(--bg2); color: var(--text); }
+.nav-item.active {
+  background: var(--bg2);
+  color: var(--text);
+  font-weight: 500;
+  border-left-color: var(--accent);
+}
+.nav-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.nav-sep { height: 1px; background: var(--border); margin: 6px 0; }
+
+/* CANVAS / VIEWER */
+.canvas {
+  background: var(--bg2);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  border-right: 1px solid var(--border);
+}
+.canvas-toolbar {
+  height: 36px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  gap: 12px;
+  background: var(--bg);
+  flex-shrink: 0;
+}
+.toolbar-label {
+  font-size: 11px;
+  font-family: var(--font-mono);
+  color: var(--text3);
+}
+.toolbar-sep { flex: 1; }
+.toolbar-hint {
+  font-size: 11px;
+  color: var(--text3);
+  font-style: italic;
+}
+
+/* SKETCHFAB CONTAINER */
+.viewer-container {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+.viewer-container iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+/* OVERLAY quando nenhum modelo está carregado */
+.viewer-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: var(--bg2);
+  z-index: 10;
+}
+.viewer-overlay.hidden { display: none; }
+.overlay-icon {
+  width: 48px; height: 48px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--bg);
+}
+.overlay-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text2);
+}
+.overlay-sub {
+  font-size: 12px;
+  color: var(--text3);
+  text-align: center;
+  max-width: 280px;
+  line-height: 1.6;
+}
+.overlay-note {
+  margin-top: 8px;
+  font-size: 11px;
+  font-family: var(--font-mono);
+  color: var(--text3);
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 8px 14px;
+  max-width: 340px;
+  line-height: 1.7;
+  text-align: center;
+}
+.overlay-note a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.overlay-note a:hover { text-decoration: underline; }
+
+/* PAINEL INFO */
+.info-panel {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--bg);
+}
+.panel-toolbar {
+  height: 36px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 0;
+  flex-shrink: 0;
+}
+.tab {
+  font-size: 12px;
+  font-family: var(--font-mono);
+  padding: 0 12px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: var(--text3);
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: color 0.1s;
+  white-space: nowrap;
+}
+.tab:hover { color: var(--text2); }
+.tab.active {
+  color: var(--text);
+  border-bottom-color: var(--accent);
+  font-weight: 500;
+}
+.tab-future {
+  font-size: 10px;
+  color: var(--text3);
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 1px 5px;
+  margin-left: 4px;
+  font-family: var(--font-mono);
+}
+
+.panel-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+}
+.panel-body::-webkit-scrollbar { width: 4px; }
+.panel-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* PANEL EMPTY */
+.panel-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  gap: 8px;
+  color: var(--text3);
+  font-size: 12px;
+  text-align: center;
+  padding: 40px;
+  line-height: 1.6;
+}
+
+/* ESTRUTURA INFO */
+.info-nome-lat {
+  font-size: 10px;
+  font-family: var(--font-mono);
+  color: var(--text3);
+  margin-bottom: 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.info-nome-pt {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.2;
+  margin-bottom: 10px;
+}
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-bottom: 14px;
+}
+.badge {
+  font-size: 10px;
+  font-family: var(--font-mono);
+  padding: 2px 7px;
+  border-radius: 3px;
+  border: 1px solid;
+}
+.badge-osso { background: #E1F0E8; color: #1A5C3A; border-color: #B8D9C5; }
+.badge-processo { background: #EEEDFE; color: #3C3489; border-color: #C5C2F0; }
+.badge-forame { background: #FEF0DA; color: #7A4500; border-color: #F5D49A; }
+.badge-irregular { background: #F0E8FE; color: #5C2D91; border-color: #D4B8F0; }
+.badge-status-ok { background: #E1F0E8; color: #1A5C3A; border-color: #B8D9C5; }
+.badge-status-draft { background: #FEF0DA; color: #7A4500; border-color: #F5D49A; }
+.badge-regiao { background: var(--bg2); color: var(--text2); border-color: var(--border); }
+
+.divider { height: 1px; background: var(--border); margin: 12px 0; }
+
+.field-label {
+  font-size: 10px;
+  font-family: var(--font-mono);
+  color: var(--text3);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 5px;
+}
+.field-text {
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.65;
+}
+.field-block { margin-bottom: 12px; }
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.tag {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 3px;
+  background: var(--bg2);
+  color: var(--text2);
+  border: 1px solid var(--border);
+  cursor: default;
+}
+.tag.clickable { cursor: pointer; }
+.tag.clickable:hover { background: var(--bg3); color: var(--text); }
+
+.parts-list { display: flex; flex-direction: column; gap: 3px; }
+.part-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 8px;
+  border-radius: 4px;
+  font-size: 12.5px;
+  color: var(--text2);
+  cursor: pointer;
+  transition: background 0.1s;
+}
+.part-item:hover { background: var(--bg2); color: var(--text); }
+.part-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.part-tipo {
+  margin-left: auto;
+  font-size: 10px;
+  font-family: var(--font-mono);
+  color: var(--text3);
+}
+
+/* FUTURO */
+.future-block {
+  padding: 32px 16px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.future-tag {
+  font-size: 10px;
+  font-family: var(--font-mono);
+  padding: 3px 8px;
+  border-radius: 3px;
+  background: var(--bg2);
+  color: var(--text3);
+  border: 1px solid var(--border);
+}
+.future-desc {
+  font-size: 13px;
+  color: var(--text3);
+  line-height: 1.65;
+  max-width: 220px;
+}
+
+/* LEGEND */
+.legend {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  background: rgba(247,246,243,0.85);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 8px 10px;
+  backdrop-filter: blur(4px);
+  z-index: 5;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  font-family: var(--font-mono);
+  color: var(--text2);
+}
+.legend-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-left">
+    <div class="header-logo">morfo·clínica</div>
+    <div class="header-sep"></div>
+    <div class="header-path">FAMEU / <span>Sistema Osteoarticular</span> / <span>Neurocrânio</span></div>
+  </div>
+  <div class="header-right">
+    <span class="etapa-badge active">Etapa 1 — Morfologia</span>
+    <span class="etapa-badge">Etapa 2 — Histologia</span>
+    <span class="etapa-badge">Etapa 3 — Embriologia</span>
+    <span class="etapa-badge">Etapa 4 — Clínica</span>
+  </div>
+</div>
+
+<!-- APP -->
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-module">Sistema Osteoarticular</div>
+      <div class="sidebar-title">Neurocrânio</div>
+      <div class="sidebar-count">8 estruturas catalogadas</div>
+    </div>
+    <div class="sidebar-body">
+      <div class="section-group">
+        <div class="section-label-nav">Ossos</div>
+        <div class="nav-item active" onclick="selectEstrutura('frontal')" id="nav-frontal">
+          <span class="nav-dot" style="background:#5DCAA5"></span>Osso frontal
+        </div>
+        <div class="nav-item" onclick="selectEstrutura('parietal')" id="nav-parietal">
+          <span class="nav-dot" style="background:#AFA9EC"></span>Osso parietal
+        </div>
+        <div class="nav-item" onclick="selectEstrutura('occipital')" id="nav-occipital">
+          <span class="nav-dot" style="background:#F0997B"></span>Osso occipital
+        </div>
+        <div class="nav-item" onclick="selectEstrutura('temporal')" id="nav-temporal">
+          <span class="nav-dot" style="background:#FAC775"></span>Osso temporal
+        </div>
+        <div class="nav-item" onclick="selectEstrutura('esfenóide')" id="nav-esfenóide">
+          <span class="nav-dot" style="background:#85B7EB"></span>Osso esfenóide
+        </div>
+        <div class="nav-item" onclick="selectEstrutura('etmóide')" id="nav-etmóide">
+          <span class="nav-dot" style="background:#C0DD97"></span>Osso etmóide
+        </div>
+      </div>
+      <div class="nav-sep"></div>
+      <div class="section-group">
+        <div class="section-label-nav">Acidentes ósseos</div>
+        <div class="nav-item" onclick="selectEstrutura('forame-magno')" id="nav-forame-magno">
+          <span class="nav-dot" style="background:#EF9F27"></span>Forame magno
+        </div>
+        <div class="nav-item" onclick="selectEstrutura('processo-mastoide')" id="nav-processo-mastoide">
+          <span class="nav-dot" style="background:#ED93B1"></span>Processo mastóide
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VIEWER -->
+  <div class="canvas">
+    <div class="canvas-toolbar">
+      <div class="toolbar-label">Visualizador 3D — Z-Anatomy / Sketchfab</div>
+      <div class="toolbar-sep"></div>
+      <div class="toolbar-hint">arraste para girar · scroll para zoom · clique na estrutura</div>
+    </div>
+
+    <div class="viewer-container">
+      <!--
+        COMO INTEGRAR O SKETCHFAB:
+        1. Crie conta no sketchfab.com (gratuito)
+        2. Faça upload do modelo Z-Anatomy do sistema que você quer
+           (baixe em z-anatomy.com — licença CC-BY-SA)
+        3. Adicione as anotações nas estruturas diretamente no editor do Sketchfab
+        4. Publique e pegue o UID do modelo na URL (ex: sketchfab.com/3d-models/[TITULO]-[UID])
+        5. Substitua YOUR_MODEL_UID abaixo pelo UID real
+        6. A comunicação entre o viewer e o painel direito funciona via Sketchfab API (já implementado no script abaixo)
+      -->
+      <iframe
+        id="sketchfab-iframe"
+        title="Modelo anatômico 3D"
+        allow="autoplay; fullscreen; xr-spatial-tracking"
+        src="https://sketchfab.com/models/YOUR_MODEL_UID/embed?ui_infos=0&ui_controls=1&ui_stop=0&preload=1&annotation_tooltip_visible=1&annotations_visible=1&ui_annotations=1&ui_theme=dark&scrollwheel=1&camera=0"
+        style="display:none"
+      ></iframe>
+
+      <!-- OVERLAY — mostrado enquanto não há modelo configurado -->
+      <div class="viewer-overlay" id="viewer-overlay">
+        <div class="overlay-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#9C9990" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M2 17l10 5 10-5"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+        </div>
+        <div class="overlay-title">Visualizador 3D</div>
+        <div class="overlay-sub">
+          Aqui entra o modelo 3D interativo do Sketchfab.<br>
+          As anotações no modelo disparam a seleção no painel ao lado.
+        </div>
+        <div class="overlay-note">
+          <strong>Para ativar:</strong><br>
+          1. Faça upload do modelo no <a href="https://sketchfab.com" target="_blank">sketchfab.com</a><br>
+          2. Adicione anotações nas estruturas<br>
+          3. Substitua <code>YOUR_MODEL_UID</code> no HTML pelo UID do modelo<br>
+          4. O iframe aparecerá automaticamente
+        </div>
+      </div>
+
+      <!-- LEGEND -->
+      <div class="legend">
+        <div class="legend-item"><span class="legend-dot" style="background:#5DCAA5"></span>osso plano</div>
+        <div class="legend-item"><span class="legend-dot" style="background:#F0997B"></span>osso irregular</div>
+        <div class="legend-item"><span class="legend-dot" style="background:#EF9F27"></span>forame</div>
+        <div class="legend-item"><span class="legend-dot" style="background:#ED93B1"></span>processo</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAINEL INFO -->
+  <div class="info-panel">
+    <div class="panel-toolbar">
+      <div class="tab active" id="tab-btn-morfologia" onclick="switchTab('morfologia')">morfologia</div>
+      <div class="tab" id="tab-btn-histologia" onclick="switchTab('histologia')">
+        histologia <span class="tab-future">etapa 2</span>
+      </div>
+      <div class="tab" id="tab-btn-embriologia" onclick="switchTab('embriologia')">
+        embrio. <span class="tab-future">etapa 3</span>
+      </div>
+      <div class="tab" id="tab-btn-clinica" onclick="switchTab('clinica')">
+        clínica <span class="tab-future">etapa 4</span>
+      </div>
+    </div>
+    <div class="panel-body" id="panel-body">
+      <div class="panel-empty">
+        Selecione uma estrutura<br>na lista ou no modelo 3D
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── BANCO DE DADOS ───────────────────────────────────────────────────────────
+const dados = {
+  'frontal': {
+    lat: 'Os frontale',
+    pt: 'Osso frontal',
+    tipo: 'osso plano',
+    sistema: 'osteoarticular',
+    regiao: 'neurocrânio',
+    descricao: 'Osso ímpar que forma a fronte e o teto das órbitas oculares. Apresenta a escama frontal, as partes orbitárias e a parte nasal.',
+    articulacoes: ['Osso parietal', 'Osso esfenóide', 'Osso zigomático', 'Osso nasal', 'Osso lacrimal', 'Osso etmóide'],
+    partes: [
+      { nome: 'Escama frontal', tipo: 'região', cor: '#5DCAA5' },
+      { nome: 'Glabela', tipo: 'processo', cor: '#AFA9EC' },
+      { nome: 'Arco superciliar', tipo: 'região', cor: '#5DCAA5' },
+      { nome: 'Forame supraorbital', tipo: 'forame', cor: '#EF9F27' },
+    ],
+    ref: ["Gray's Anatomy, cap. 3", "Netter, prancha 4–6"],
+    status: 'revisado',
+    cor: '#5DCAA5',
+    // ID da anotação no Sketchfab (número da anotação, começa em 0)
+    sketchfabAnnotation: 0
+  },
+  'parietal': {
+    lat: 'Os parietale',
+    pt: 'Osso parietal',
+    tipo: 'osso plano',
+    sistema: 'osteoarticular',
+    regiao: 'neurocrânio',
+    descricao: 'Osso par que forma as partes laterais e superiores do crânio. Apresenta quatro bordas e quatro ângulos, articulando-se com cinco ossos.',
+    articulacoes: ['Osso frontal', 'Osso occipital', 'Osso temporal', 'Osso esfenóide', 'Osso parietal contralateral'],
+    partes: [
+      { nome: 'Face externa', tipo: 'região', cor: '#AFA9EC' },
+      { nome: 'Face interna', tipo: 'região', cor: '#AFA9EC' },
+      { nome: 'Forame parietal', tipo: 'forame', cor: '#EF9F27' },
+      { nome: 'Tuberosidade parietal', tipo: 'processo', cor: '#ED93B1' },
+    ],
+    ref: ["Gray's Anatomy, cap. 3", "Netter, prancha 6–8"],
+    status: 'revisado',
+    cor: '#AFA9EC',
+    sketchfabAnnotation: 1
+  },
+  'occipital': {
+    lat: 'Os occipitale',
+    pt: 'Osso occipital',
+    tipo: 'osso plano',
+    sistema: 'osteoarticular',
+    regiao: 'neurocrânio',
+    descricao: 'Osso ímpar que forma a parte posterior e inferior do crânio. Circunda o forame magno, pelo qual passa a medula espinal.',
+    articulacoes: ['Osso parietal', 'Osso temporal', 'Osso esfenóide', 'Atlas (C1)'],
+    partes: [
+      { nome: 'Escama occipital', tipo: 'região', cor: '#F0997B' },
+      { nome: 'Côndilo occipital', tipo: 'processo', cor: '#ED93B1' },
+      { nome: 'Forame magno', tipo: 'forame', cor: '#EF9F27' },
+      { nome: 'Protuberância occipital ext.', tipo: 'processo', cor: '#ED93B1' },
+    ],
+    ref: ["Gray's Anatomy, cap. 3", "Netter, prancha 8–10"],
+    status: 'revisado',
+    cor: '#F0997B',
+    sketchfabAnnotation: 2
+  },
+  'temporal': {
+    lat: 'Os temporale',
+    pt: 'Osso temporal',
+    tipo: 'osso irregular',
+    sistema: 'osteoarticular',
+    regiao: 'neurocrânio',
+    descricao: 'Osso par situado nas regiões laterais e base do crânio. Abriga o ouvido médio e interno. Articula-se com a mandíbula pela ATM.',
+    articulacoes: ['Osso parietal', 'Osso occipital', 'Osso esfenóide', 'Osso zigomático', 'Mandíbula (ATM)'],
+    partes: [
+      { nome: 'Parte escamosa', tipo: 'região', cor: '#FAC775' },
+      { nome: 'Processo mastóide', tipo: 'processo', cor: '#ED93B1' },
+      { nome: 'Processo estilóide', tipo: 'processo', cor: '#ED93B1' },
+      { nome: 'Meato acústico externo', tipo: 'forame', cor: '#EF9F27' },
+    ],
+    ref: ["Gray's Anatomy, cap. 3", "Netter, prancha 10–12"],
+    status: 'revisado',
+    cor: '#FAC775',
+    sketchfabAnnotation: 3
+  },
+  'esfenóide': {
+    lat: 'Os sphenoidale',
+    pt: 'Osso esfenóide',
+    tipo: 'osso irregular',
+    sistema: 'osteoarticular',
+    regiao: 'neurocrânio',
+    descricao: 'Osso ímpar situado na base do crânio, em forma de borboleta. Articula-se com todos os outros ossos do crânio.',
+    articulacoes: ['Osso frontal', 'Osso parietal', 'Osso occipital', 'Osso temporal', 'Osso etmóide'],
+    partes: [
+      { nome: 'Corpo', tipo: 'região', cor: '#85B7EB' },
+      { nome: 'Asas maiores', tipo: 'região', cor: '#85B7EB' },
+      { nome: 'Asas menores', tipo: 'região', cor: '#85B7EB' },
+      { nome: 'Sela túrcica', tipo: 'processo', cor: '#ED93B1' },
+      { nome: 'Forame oval', tipo: 'forame', cor: '#EF9F27' },
+    ],
+    ref: ["Gray's Anatomy, cap. 3", "Netter, prancha 12–14"],
+    status: 'rascunho',
+    cor: '#85B7EB',
+    sketchfabAnnotation: 4
+  },
+  'etmóide': {
+    lat: 'Os ethmoidale',
+    pt: 'Osso etmóide',
+    tipo: 'osso irregular',
+    sistema: 'osteoarticular',
+    regiao: 'neurocrânio',
+    descricao: 'Osso ímpar, leve e esponjoso, situado na base anterior do crânio. Participa da formação do septo nasal e das paredes mediais das órbitas.',
+    articulacoes: ['Osso frontal', 'Osso esfenóide', 'Osso nasal', 'Maxila', 'Osso lacrimal', 'Osso palatino'],
+    partes: [
+      { nome: 'Lâmina cribiforme', tipo: 'região', cor: '#C0DD97' },
+      { nome: 'Lâmina perpendicular', tipo: 'região', cor: '#C0DD97' },
+      { nome: 'Labirinto etmoidal', tipo: 'região', cor: '#C0DD97' },
+      { nome: 'Crista de galo', tipo: 'processo', cor: '#ED93B1' },
+    ],
+    ref: ["Gray's Anatomy, cap. 3", "Netter, prancha 14–16"],
+    status: 'rascunho',
+    cor: '#C0DD97',
+    sketchfabAnnotation: 5
+  },
+  'forame-magno': {
+    lat: 'Foramen magnum',
+    pt: 'Forame magno',
+    tipo: 'forame',
+    sistema: 'osteoarticular',
+    regiao: 'neurocrânio — osso occipital',
+    descricao: 'Grande abertura na base do osso occipital pela qual passam a medula espinal, as artérias vertebrais e o nervo acessório (XI par craniano).',
+    articulacoes: [],
+    partes: [],
+    ref: ["Gray's Anatomy, cap. 3", "Netter, prancha 9"],
+    status: 'revisado',
+    cor: '#EF9F27',
+    sketchfabAnnotation: 6
+  },
+  'processo-mastoide': {
+    lat: 'Processus mastoideus',
+    pt: 'Processo mastóide',
+    tipo: 'processo',
+    sistema: 'osteoarticular',
+    regiao: 'neurocrânio — osso temporal',
+    descricao: 'Projeção cônica do osso temporal, posterior ao meato acústico externo. Serve de inserção ao músculo esternocleidomastóideo.',
+    articulacoes: [],
+    inserções: ['M. esternocleidomastóideo', 'M. esplênio da cabeça', 'M. digástrico (ventre posterior)'],
+    partes: [],
+    ref: ["Gray's Anatomy, cap. 3", "Netter, prancha 11"],
+    status: 'revisado',
+    cor: '#ED93B1',
+    sketchfabAnnotation: 7
+  },
+};
+
+// Mapa inverso: índice de anotação Sketchfab → ID da estrutura
+const annotationMap = {};
+Object.entries(dados).forEach(([id, d]) => {
+  if (d.sketchfabAnnotation !== undefined) {
+    annotationMap[d.sketchfabAnnotation] = id;
+  }
+});
+
+// ─── ESTADO ──────────────────────────────────────────────────────────────────
+let estruturaAtual = 'frontal';
+let abaAtual = 'morfologia';
+let sketchfabApi = null;
+
+// ─── SKETCHFAB API ────────────────────────────────────────────────────────────
+function initSketchfab() {
+  const iframe = document.getElementById('sketchfab-iframe');
+
+  // Só tenta inicializar se o iframe tiver um UID real
+  if (iframe.src.includes('YOUR_MODEL_UID')) return;
+
+  iframe.style.display = 'block';
+  document.getElementById('viewer-overlay').classList.add('hidden');
+
+  // Carrega o SDK do Sketchfab
+  const script = document.createElement('script');
+  script.src = 'https://static.sketchfab.com/api/sketchfab-viewer-1.12.1.js';
+  script.onload = () => {
+    const client = new window.Sketchfab(iframe);
+    client.init({
+      success: (api) => {
+        sketchfabApi = api;
+        api.start();
+        api.addEventListener('viewerready', () => {
+          // Quando o usuário clica numa anotação no modelo 3D,
+          // seleciona a estrutura correspondente no painel
+          api.addEventListener('annotationSelect', (index) => {
+            const id = annotationMap[index];
+            if (id) selectEstrutura(id, false); // false = não volta a mover câmera
+          });
+        });
+      },
+      error: () => console.error('Sketchfab: erro ao inicializar')
+    });
+  };
+  document.head.appendChild(script);
+}
+
+// ─── NAVEGAÇÃO ────────────────────────────────────────────────────────────────
+function selectEstrutura(id, moverCamera = true) {
+  if (!dados[id]) return;
+  estruturaAtual = id;
+
+  // Atualiza sidebar
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const nav = document.getElementById('nav-' + id);
+  if (nav) nav.classList.add('active');
+
+  // Move a câmera do Sketchfab para a anotação correspondente
+  if (moverCamera && sketchfabApi && dados[id].sketchfabAnnotation !== undefined) {
+    sketchfabApi.gotoAnnotation(dados[id].sketchfabAnnotation, { preventCameraAnimation: false });
+  }
+
+  renderPanel();
+}
+
+function switchTab(aba) {
+  abaAtual = aba;
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-btn-' + aba).classList.add('active');
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  const tc = document.getElementById('tabcontent-' + aba);
+  if (tc) tc.classList.add('active');
+}
+
+// ─── RENDER DO PAINEL ─────────────────────────────────────────────────────────
+function getBadgeClasse(tipo) {
+  if (tipo === 'forame') return 'badge badge-forame';
+  if (tipo.includes('processo')) return 'badge badge-processo';
+  if (tipo.includes('irregular')) return 'badge badge-irregular';
+  return 'badge badge-osso';
+}
+
+function renderPanel() {
+  const d = dados[estruturaAtual];
+  if (!d) return;
+
+  const temPartes = d.partes && d.partes.length > 0;
+  const temArt = d.articulacoes && d.articulacoes.length > 0;
+  const temInsercoes = d.inserções && d.inserções.length > 0;
+
+  const partesHTML = temPartes ? `
+    <div class="field-block">
+      <div class="field-label">Partes e acidentes</div>
+      <div class="parts-list">
+        ${d.partes.map(p => `
+          <div class="part-item">
+            <span class="part-dot" style="background:${p.cor}"></span>
+            ${p.nome}
+            <span class="part-tipo">${p.tipo}</span>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+    <div class="divider"></div>
+  ` : '';
+
+  const artHTML = temArt ? `
+    <div class="field-block">
+      <div class="field-label">Articula-se com</div>
+      <div class="tags">
+        ${d.articulacoes.map(a => `<span class="tag">${a}</span>`).join('')}
+      </div>
+    </div>
+  ` : '';
+
+  const insHTML = temInsercoes ? `
+    <div class="field-block">
+      <div class="field-label">Inserção muscular</div>
+      <div class="tags">
+        ${d.inserções.map(a => `<span class="tag">${a}</span>`).join('')}
+      </div>
+    </div>
+  ` : '';
+
+  document.getElementById('panel-body').innerHTML = `
+    <div class="tab-content ${abaAtual === 'morfologia' ? 'active' : ''}" id="tabcontent-morfologia">
+
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:3px">
+        <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${d.cor};flex-shrink:0"></span>
+        <div class="info-nome-lat">${d.lat}</div>
+      </div>
+      <div class="info-nome-pt">${d.pt}</div>
+
+      <div class="badges">
+        <span class="${getBadgeClasse(d.tipo)}">${d.tipo}</span>
+        <span class="badge badge-regiao">${d.regiao}</span>
+        <span class="badge ${d.status === 'revisado' ? 'badge-status-ok' : 'badge-status-draft'}">${d.status}</span>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="field-block">
+        <div class="field-label">Descrição morfológica</div>
+        <div class="field-text">${d.descricao}</div>
+      </div>
+
+      ${partesHTML !== '' ? partesHTML : '<div class="divider"></div>'}
+      ${artHTML}
+      ${insHTML}
+      ${(temArt || temInsercoes) ? '<div class="divider"></div>' : ''}
+
+      <div class="field-block">
+        <div class="field-label">Referências</div>
+        <div class="tags">
+          ${d.ref.map(r => `<span class="tag">${r}</span>`).join('')}
+        </div>
+      </div>
+
+    </div>
+
+    <div class="tab-content ${abaAtual === 'histologia' ? 'active' : ''}" id="tabcontent-histologia">
+      <div class="future-block">
+        <span class="future-tag">Etapa 2 — em desenvolvimento</span>
+        <div class="future-desc">
+          Caracterização histológica dos tecidos associados a <strong>${d.pt}</strong>.<br><br>
+          Inclui tipo tecidual, lâminas histológicas e descrição microscópica.
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content ${abaAtual === 'embriologia' ? 'active' : ''}" id="tabcontent-embriologia">
+      <div class="future-block">
+        <span class="future-tag">Etapa 3 — em desenvolvimento</span>
+        <div class="future-desc">
+          Origem embriológica de <strong>${d.pt}</strong>.<br><br>
+          Inclui folheto germinativo de origem, cronologia do desenvolvimento e anomalias congênitas associadas.
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content ${abaAtual === 'clinica' ? 'active' : ''}" id="tabcontent-clinica">
+      <div class="future-block">
+        <span class="future-tag">Etapa 4 — em desenvolvimento</span>
+        <div class="future-desc">
+          Correlações clínicas associadas a <strong>${d.pt}</strong>.<br><br>
+          Inclui fraturas, patologias prevalentes, semiologia e casos clínicos curtos.
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+initSketchfab();
+selectEstrutura('frontal');
+</script>
+</body>
+</html>
