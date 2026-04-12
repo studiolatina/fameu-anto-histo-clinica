@@ -5,8 +5,8 @@
     "sistema": "osteoarticular",
     "total_estruturas": 8,
     "status": "em andamento",
-    "versao": 1,
-    "atualizado_em": "2026-04-09"
+    "versao": 2,
+    "atualizado_em": "2026-04-11"
   },
   "estruturas": [
     {
@@ -21,11 +21,7 @@
       "hierarchy": {
         "parent_slug": "neurocranium",
         "relation_type": "part_of",
-        "children_slugs": [
-          "squama-frontalis",
-          "pars-orbitalis",
-          "sinus-frontalis"
-        ]
+        "children_slugs": ["squama-frontalis", "pars-orbitalis", "sinus-frontalis"]
       },
       "classification": {
         "sistema": "osteoarticular",
@@ -41,11 +37,7 @@
           { "slug": "pars-orbitalis", "names": { "la": "Pars orbitalis", "pt": "Parte orbitária" }, "tipo": "região", "cor": "#5DCAA5" },
           { "slug": "sinus-frontalis", "names": { "la": "Sinus frontalis", "pt": "Seio frontal" }, "tipo": "região", "cor": "#5DCAA5" }
         ],
-        "articulacoes_slugs": [
-          "os-parietale",
-          "os-sphenoidale",
-          "os-ethmoidale"
-        ],
+        "articulacoes_slugs": ["os-parietale", "os-sphenoidale", "os-ethmoidale"],
         "insercoes_musculares": []
       },
       "histology": null,
@@ -53,8 +45,38 @@
       "clinical": null,
       "media": {
         "cor_interface": "#5DCAA5",
-        "sketchfab_annotation": 0,
-        "imagens": []
+        "vistas_disponiveis": ["frontal", "lateral-d", "lateral-e", "superior", "planta"],
+        "vistas": {
+          "frontal": {
+            "imagem_base": "gray1918/vistas_externas/Gray190.png",
+            "highlight": { "tipo": "polygon", "pontos": "" },
+            "hotspots": []
+          },
+          "lateral-d": {
+            "imagem_base": "gray1918/vistas_externas/Gray188.png",
+            "highlight": { "tipo": "polygon", "pontos": "" },
+            "hotspots": []
+          },
+          "lateral-e": {
+            "imagem_base": "gray1918/vistas_externas/Gray188.png",
+            "highlight": { "tipo": "polygon", "pontos": "" },
+            "hotspots": []
+          },
+          "superior": {
+            "imagem_base": "gray1918/vistas_externas/Gray183.png",
+            "highlight": { "tipo": "polygon", "pontos": "" },
+            "hotspots": []
+          },
+          "planta": {
+            "imagem_base": "gray1918/cortes/Gray193.png",
+            "highlight": { "tipo": "polygon", "pontos": "" },
+            "hotspots": []
+          }
+        },
+        "imagens_isoladas": [
+          { "arquivo": "gray1918/osso_frontal/Gray134.png", "vista": "externa", "descricao": "Superfície externa" },
+          { "arquivo": "gray1918/osso_frontal/Gray135.png", "vista": "interna", "descricao": "Superfície interna" }
+        ]
       },
       "references": [
         { "obra": "Gray's Anatomy", "edicao": "42ª ed.", "capitulo": "3" },
@@ -64,8 +86,8 @@
         "status": "revisado",
         "revisado_por": null,
         "criado_em": "2026-04-09",
-        "atualizado_em": "2026-04-09",
-        "versao": 1
+        "atualizado_em": "2026-04-11",
+        "versao": 2
       }
     },
     {
@@ -92,12 +114,7 @@
         "descricao": "Osso plano e par que forma as faces laterais e superiores do crânio. Limita-se com o frontal, occipital, temporal e esfenóide.",
         "funcao": "Proteção do lobo parietal",
         "partes": [],
-        "articulacoes_slugs": [
-          "os-frontale",
-          "os-occipitale",
-          "os-temporale",
-          "os-sphenoidale"
-        ],
+        "articulacoes_slugs": ["os-frontale", "os-occipitale", "os-temporale", "os-sphenoidale"],
         "insercoes_musculares": []
       },
       "histology": null,
@@ -105,8 +122,38 @@
       "clinical": null,
       "media": {
         "cor_interface": "#AFA9EC",
-        "sketchfab_annotation": 1,
-        "imagens": []
+        "vistas_disponiveis": ["frontal", "lateral-d", "lateral-e", "superior", "planta"],
+        "vistas": {
+          "frontal": {
+            "imagem_base": "gray1918/vistas_externas/Gray190.png",
+            "highlight": { "tipo": "polygon", "pontos": "" },
+            "hotspots": []
+          },
+          "lateral-d": {
+            "imagem_base": "gray1918/vistas_externas/Gray188.png",
+            "highlight": { "tipo": "polygon", "pontos": "" },
+            "hotspots": []
+          },
+          "lateral-e": {
+            "imagem_base": "gray1918/vistas_externas/Gray188.png",
+            "highlight": { "tipo": "polygon", "pontos": "" },
+            "hotspots": []
+          },
+          "superior": {
+            "imagem_base": "gray1918/vistas_externas/Gray183.png",
+            "highlight": { "tipo": "polygon", "pontos": "" },
+            "hotspots": []
+          },
+          "planta": {
+            "imagem_base": "gray1918/cortes/Gray193.png",
+            "highlight": { "tipo": "polygon", "pontos": "" },
+            "hotspots": []
+          }
+        },
+        "imagens_isoladas": [
+          { "arquivo": "gray1918/osso_parietal/Gray132.png", "vista": "externa", "descricao": "Superfície externa" },
+          { "arquivo": "gray1918/osso_parietal/Gray133.png", "vista": "interna", "descricao": "Superfície interna" }
+        ]
       },
       "references": [
         { "obra": "Gray's Anatomy", "edicao": "42ª ed.", "capitulo": "3" },
@@ -116,8 +163,8 @@
         "status": "rascunho",
         "revisado_por": null,
         "criado_em": "2026-04-09",
-        "atualizado_em": "2026-04-09",
-        "versao": 1
+        "atualizado_em": "2026-04-11",
+        "versao": 2
       }
     },
     {
@@ -148,12 +195,7 @@
           { "slug": "pars-basilaris", "names": { "la": "Pars basilaris", "pt": "Parte basilar" }, "tipo": "região", "cor": "#F0997B" },
           { "slug": "condylus-occipitalis", "names": { "la": "Condylus occipitalis", "pt": "Côndilo occipital" }, "tipo": "processo", "cor": "#ED93B1" }
         ],
-        "articulacoes_slugs": [
-          "os-parietale",
-          "os-temporale",
-          "os-sphenoidale",
-          "atlas-c1"
-        ],
+        "articulacoes_slugs": ["os-parietale", "os-temporale", "os-sphenoidale", "atlas-c1"],
         "insercoes_musculares": []
       },
       "histology": null,
@@ -161,8 +203,28 @@
       "clinical": null,
       "media": {
         "cor_interface": "#F0997B",
-        "sketchfab_annotation": 2,
-        "imagens": []
+        "vistas_disponiveis": ["posterior", "inferior", "planta"],
+        "vistas": {
+          "posterior": {
+            "imagem_base": "gray1918/vistas_externas/Gray184.png",
+            "highlight": { "tipo": "polygon", "pontos": "" },
+            "hotspots": []
+          },
+          "inferior": {
+            "imagem_base": "gray1918/cortes/Gray187.png",
+            "highlight": { "tipo": "polygon", "pontos": "" },
+            "hotspots": []
+          },
+          "planta": {
+            "imagem_base": "gray1918/cortes/Gray193.png",
+            "highlight": { "tipo": "polygon", "pontos": "" },
+            "hotspots": []
+          }
+        },
+        "imagens_isoladas": [
+          { "arquivo": "gray1918/osso_occipital/Gray129.png", "vista": "externa", "descricao": "Superfície externa" },
+          { "arquivo": "gray1918/osso_occipital/Gray130.png", "vista": "interna", "descricao": "Superfície interna" }
+        ]
       },
       "references": [
         { "obra": "Gray's Anatomy", "edicao": "42ª ed.", "capitulo": "3" },
@@ -172,8 +234,8 @@
         "status": "rascunho",
         "revisado_por": null,
         "criado_em": "2026-04-09",
-        "atualizado_em": "2026-04-09",
-        "versao": 1
+        "atualizado_em": "2026-04-11",
+        "versao": 2
       }
     },
     {
@@ -204,12 +266,7 @@
           { "slug": "processus-styloideus", "names": { "la": "Processus styloideus", "pt": "Processo estilóide" }, "tipo": "processo", "cor": "#ED93B1" },
           { "slug": "meatus-acusticus-externus", "names": { "la": "Meatus acusticus externus", "pt": "Meato acústico externo" }, "tipo": "forame", "cor": "#EF9F27" }
         ],
-        "articulacoes_slugs": [
-          "os-parietale",
-          "os-occipitale",
-          "os-sphenoidale",
-          "mandibula"
-        ],
+        "articulacoes_slugs": ["os-parietale", "os-occipitale", "os-sphenoidale", "mandibula"],
         "insercoes_musculares": []
       },
       "histology": null,
@@ -217,8 +274,39 @@
       "clinical": null,
       "media": {
         "cor_interface": "#FAC775",
-        "sketchfab_annotation": 3,
-        "imagens": []
+        "vistas_disponiveis": ["frontal", "lateral-d", "lateral-e", "inferior", "planta"],
+        "vistas": {
+          "frontal": {
+            "imagem_base": "gray1918/vistas_externas/Gray190.png",
+            "highlight": { "tipo": "polygon", "pontos": "" },
+            "hotspots": []
+          },
+          "lateral-d": {
+            "imagem_base": "gray1918/vistas_externas/Gray188.png",
+            "highlight": { "tipo": "polygon", "pontos": "" },
+            "hotspots": []
+          },
+          "lateral-e": {
+            "imagem_base": "gray1918/vistas_externas/Gray188.png",
+            "highlight": { "tipo": "polygon", "pontos": "" },
+            "hotspots": []
+          },
+          "inferior": {
+            "imagem_base": "gray1918/cortes/Gray187.png",
+            "highlight": { "tipo": "polygon", "pontos": "" },
+            "hotspots": []
+          },
+          "planta": {
+            "imagem_base": "gray1918/cortes/Gray193.png",
+            "highlight": { "tipo": "polygon", "pontos": "" },
+            "hotspots": []
+          }
+        },
+        "imagens_isoladas": [
+          { "arquivo": "gray1918/osso_temporal/Gray137.png", "vista": "externa", "descricao": "Superfície lateral externa" },
+          { "arquivo": "gray1918/osso_temporal/Gray138.png", "vista": "interna", "descricao": "Superfície medial interna" },
+          { "arquivo": "gray1918/osso_temporal/Gray141.png", "vista": "inferior", "descricao": "Superfície inferior" }
+        ]
       },
       "references": [
         { "obra": "Gray's Anatomy", "edicao": "42ª ed.", "capitulo": "3" },
@@ -228,8 +316,8 @@
         "status": "revisado",
         "revisado_por": null,
         "criado_em": "2026-04-09",
-        "atualizado_em": "2026-04-09",
-        "versao": 1
+        "atualizado_em": "2026-04-11",
+        "versao": 2
       }
     },
     {
@@ -262,13 +350,7 @@
           { "slug": "sella-turcica", "names": { "la": "Sella turcica", "pt": "Sela túrcica" }, "tipo": "processo", "cor": "#ED93B1" },
           { "slug": "foramen-ovale", "names": { "la": "Foramen ovale", "pt": "Forame oval" }, "tipo": "forame", "cor": "#EF9F27" }
         ],
-        "articulacoes_slugs": [
-          "os-frontale",
-          "os-parietale",
-          "os-occipitale",
-          "os-temporale",
-          "os-ethmoidale"
-        ],
+        "articulacoes_slugs": ["os-frontale", "os-parietale", "os-occipitale", "os-temporale", "os-ethmoidale"],
         "insercoes_musculares": []
       },
       "histology": null,
@@ -276,8 +358,29 @@
       "clinical": null,
       "media": {
         "cor_interface": "#85B7EB",
-        "sketchfab_annotation": 4,
-        "imagens": []
+        "vistas_disponiveis": ["inferior", "planta", "sagital"],
+        "vistas": {
+          "inferior": {
+            "imagem_base": "gray1918/cortes/Gray187.png",
+            "highlight": { "tipo": "polygon", "pontos": "" },
+            "hotspots": []
+          },
+          "planta": {
+            "imagem_base": "gray1918/cortes/Gray193.png",
+            "highlight": { "tipo": "polygon", "pontos": "" },
+            "hotspots": []
+          },
+          "sagital": {
+            "imagem_base": "gray1918/cortes/Gray194.png",
+            "highlight": { "tipo": "polygon", "pontos": "" },
+            "hotspots": []
+          }
+        },
+        "imagens_isoladas": [
+          { "arquivo": "gray1918/osso_esfenóide/Gray145.png", "vista": "superior", "descricao": "Superfície superior" },
+          { "arquivo": "gray1918/osso_esfenóide/Gray146.png", "vista": "anterior-inferior", "descricao": "Superfícies anterior e inferior" },
+          { "arquivo": "gray1918/osso_esfenóide/Gray147.png", "vista": "superior-posterior", "descricao": "Superfícies superior e posterior" }
+        ]
       },
       "references": [
         { "obra": "Gray's Anatomy", "edicao": "42ª ed.", "capitulo": "3" },
@@ -287,8 +390,8 @@
         "status": "rascunho",
         "revisado_por": null,
         "criado_em": "2026-04-09",
-        "atualizado_em": "2026-04-09",
-        "versao": 1
+        "atualizado_em": "2026-04-11",
+        "versao": 2
       }
     },
     {
@@ -320,14 +423,7 @@
           { "slug": "labyrinthus-ethmoidalis", "names": { "la": "Labyrinthus ethmoidalis", "pt": "Labirinto etmoidal" }, "tipo": "região", "cor": "#C0DD97" },
           { "slug": "crista-galli", "names": { "la": "Crista galli", "pt": "Crista de galo" }, "tipo": "processo", "cor": "#ED93B1" }
         ],
-        "articulacoes_slugs": [
-          "os-frontale",
-          "os-sphenoidale",
-          "os-nasale",
-          "maxilla",
-          "os-lacrimale",
-          "os-palatinum"
-        ],
+        "articulacoes_slugs": ["os-frontale", "os-sphenoidale", "os-nasale", "maxilla", "os-lacrimale", "os-palatinum"],
         "insercoes_musculares": []
       },
       "histology": null,
@@ -335,8 +431,24 @@
       "clinical": null,
       "media": {
         "cor_interface": "#C0DD97",
-        "sketchfab_annotation": 5,
-        "imagens": []
+        "vistas_disponiveis": ["planta", "sagital"],
+        "vistas": {
+          "planta": {
+            "imagem_base": "gray1918/cortes/Gray193.png",
+            "highlight": { "tipo": "polygon", "pontos": "" },
+            "hotspots": []
+          },
+          "sagital": {
+            "imagem_base": "gray1918/cortes/Gray194.png",
+            "highlight": { "tipo": "polygon", "pontos": "" },
+            "hotspots": []
+          }
+        },
+        "imagens_isoladas": [
+          { "arquivo": "gray1918/osso_etmoide/Gray149.png", "vista": "superior", "descricao": "Vista superior" },
+          { "arquivo": "gray1918/osso_etmoide/Gray151.png", "vista": "posterior", "descricao": "Vista posterior" },
+          { "arquivo": "gray1918/osso_etmoide/Gray152.png", "vista": "lateral", "descricao": "Vista lateral direita" }
+        ]
       },
       "references": [
         { "obra": "Gray's Anatomy", "edicao": "42ª ed.", "capitulo": "3" },
@@ -346,8 +458,8 @@
         "status": "rascunho",
         "revisado_por": null,
         "criado_em": "2026-04-09",
-        "atualizado_em": "2026-04-09",
-        "versao": 1
+        "atualizado_em": "2026-04-11",
+        "versao": 2
       }
     },
     {
@@ -382,8 +494,20 @@
       "clinical": null,
       "media": {
         "cor_interface": "#EF9F27",
-        "sketchfab_annotation": 6,
-        "imagens": []
+        "vistas_disponiveis": ["inferior", "planta"],
+        "vistas": {
+          "inferior": {
+            "imagem_base": "gray1918/cortes/Gray187.png",
+            "highlight": { "tipo": "ellipse", "cx": "", "cy": "", "rx": "", "ry": "" },
+            "hotspots": []
+          },
+          "planta": {
+            "imagem_base": "gray1918/cortes/Gray193.png",
+            "highlight": { "tipo": "ellipse", "cx": "", "cy": "", "rx": "", "ry": "" },
+            "hotspots": []
+          }
+        },
+        "imagens_isoladas": []
       },
       "references": [
         { "obra": "Gray's Anatomy", "edicao": "42ª ed.", "capitulo": "3" },
@@ -393,8 +517,8 @@
         "status": "revisado",
         "revisado_por": null,
         "criado_em": "2026-04-09",
-        "atualizado_em": "2026-04-09",
-        "versao": 1
+        "atualizado_em": "2026-04-11",
+        "versao": 2
       }
     },
     {
@@ -433,8 +557,25 @@
       "clinical": null,
       "media": {
         "cor_interface": "#ED93B1",
-        "sketchfab_annotation": 7,
-        "imagens": []
+        "vistas_disponiveis": ["lateral-d", "lateral-e", "inferior"],
+        "vistas": {
+          "lateral-d": {
+            "imagem_base": "gray1918/vistas_externas/Gray188.png",
+            "highlight": { "tipo": "polygon", "pontos": "" },
+            "hotspots": []
+          },
+          "lateral-e": {
+            "imagem_base": "gray1918/vistas_externas/Gray188.png",
+            "highlight": { "tipo": "polygon", "pontos": "" },
+            "hotspots": []
+          },
+          "inferior": {
+            "imagem_base": "gray1918/cortes/Gray187.png",
+            "highlight": { "tipo": "polygon", "pontos": "" },
+            "hotspots": []
+          }
+        },
+        "imagens_isoladas": []
       },
       "references": [
         { "obra": "Gray's Anatomy", "edicao": "42ª ed.", "capitulo": "3" },
@@ -444,8 +585,8 @@
         "status": "revisado",
         "revisado_por": null,
         "criado_em": "2026-04-09",
-        "atualizado_em": "2026-04-09",
-        "versao": 1
+        "atualizado_em": "2026-04-11",
+        "versao": 2
       }
     }
   ]
