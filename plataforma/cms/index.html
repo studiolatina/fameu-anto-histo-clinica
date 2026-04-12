@@ -514,8 +514,8 @@ async function carregarDados() {
       dados: json
     };
 
-    if (json.estruturas) {
-      for (const e of json.estruturas) {
+    if (json.estruturas && Array.isArray(json.estruturas)) {
+  for (const e of json.estruturas) {
         estruturas.push({ ...e, _arquivo: arquivo.name, _regiao: json.meta?.regiao || arquivo.name });
       }
     }
