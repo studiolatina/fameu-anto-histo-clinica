@@ -838,11 +838,10 @@ function renderRevisao(e) {
       </div>
     </div>
 
-    ${!revisado ? `
-    <div class="form-actions">
-      <button class="secondary" onclick="voltarParaEdicao('${e.id}')">← Devolver para edição</button>
-      <button class="success" onclick="validarEstrutura('${e.id}')">✓ Validar estrutura</button>
-    </div>` : ''}
+<div class="form-actions">
+  <button class="secondary" onclick="voltarParaEdicao('${e.id}')">← Devolver para rascunho</button>
+  ${!revisado ? `<button class="success" onclick="validarEstrutura('${e.id}')">✓ Validar estrutura</button>` : ''}
+</div>
   `;
 }
 
