@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Morphé CMS</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #1A1916;
+  --bg2: #242220;
+  --bg3: #2E2C28;
+  --border: #3A3830;
+  --text: #E8E4DA;
+  --text2: #9C9890;
+  --text3: #5C5A54;
+  --accent: #C4A882;
+  --accent-dim: #3D3020;
+  --green: #4A7C59;
+  --green-dim: #1E3024;
+  --yellow: #8A7340;
+  --yellow-dim: #2E2610;
+  --red: #7C4A4A;
+  --font: 'Georgia', serif;
+  --mono: 'Courier New', monospace;
+}
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* LOGIN */
+#login-screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 24px;
+}
+.login-box {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 40px;
+  width: 360px;
+  background: var(--bg2);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.login-logo {
+  font-size: 22px;
+  font-weight: normal;
+  letter-spacing: 0.1em;
+  text-align: center;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+.login-sub {
+  font-size: 12px;
+  color: var(--text3);
+  text-align: center;
+  font-family: var(--mono);
+  margin-top: -12px;
+  margin-bottom: 8px;
+}
+input[type="password"], input[type="text"], textarea, select {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 14px;
+  padding: 10px 12px;
+  width: 100%;
+  outline: none;
+  transition: border-color 0.15s;
+}
+input:focus, textarea:focus, select:focus {
+  border-color: var(--accent);
+}
+textarea { resize: vertical; min-height: 100px; line-height: 1.6; }
+button {
+  background: var(--accent-dim);
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  color: var(--accent);
+  cursor: pointer;
+  font-family: var(--font);
+  font-size: 14px;
+  padding: 10px 20px;
+  transition: background 0.15s;
+  width: 100%;
+}
+button:hover { background: var(--accent); color: var(--bg); }
+button.secondary {
+  background: var(--bg3);
+  border-color: var(--border);
+  color: var(--text2);
+}
+button.secondary:hover { background: var(--border); color: var(--text); }
+button.success {
+  background: var(--green-dim);
+  border-color: var(--green);
+  color: #7DC899;
+}
+button.success:hover { background: var(--green); color: var(--bg); }
+button.small {
+  width: auto;
+  padding: 6px 14px;
+  font-size: 12px;
+}
+.error-msg {
+  color: #C87070;
+  font-size: 12px;
+  font-family: var(--mono);
+  text-align: center;
+}
+
+/* HEADER */
+.header {
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg2);
+}
+.header-logo { font-size: 16px; letter-spacing: 0.08em; color: var(--accent); }
+.header-right { display: flex; align-items: center; gap: 12px; }
+.header-user { font-size: 12px; color: var(--text3); font-family: var(--mono); }
+
+/* LAYOUT */
+.app { display: none; flex-direction: column; min-height: 100vh; }
+.app.visible { display: flex; }
+.main { display: flex; flex: 1; }
+
+/* SIDEBAR */
+.sidebar {
+  width: 260px;
+  border-right: 1px solid var(--border);
+  padding: 16px 0;
+  background: var(--bg2);
+  flex-shrink: 0;
+  overflow-y: auto;
+}
+.sidebar-section {
+  padding: 8px 16px 4px;
+  font-size: 10px;
+  font-family: var(--mono);
+  color: var(--text3);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--text2);
+  border-left: 2px solid transparent;
+  transition: all 0.1s;
+}
+.sidebar-item:hover { background: var(--bg3); color: var(--text); }
+.sidebar-item.active {
+  background: var(--bg3);
+  color: var(--accent);
+  border-left-color: var(--accent);
+}
+.sidebar-count {
+  font-size: 11px;
+  font-family: var(--mono);
+  color: var(--text3);
+  background: var(--bg);
+  padding: 2px 6px;
+  border-radius: 10px;
+}
+
+/* STATUS BADGES */
+.badge {
+  font-size: 10px;
+  font-family: var(--mono);
+  padding: 2px 8px;
+  border-radius: 10px;
+  border: 1px solid;
+}
+.badge-rascunho { background: var(--bg3); color: var(--text3); border-color: var(--border); }
+.badge-em_revisao { background: var(--yellow-dim); color: #C9A84C; border-color: var(--yellow); }
+.badge-revisado { background: var(--green-dim); color: #7DC899; border-color: var(--green); }
+
+/* CONTEÚDO */
+.content { flex: 1; overflow-y: auto; padding: 24px; }
+
+/* LISTA DE ESTRUTURAS */
+.list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.list-title { font-size: 20px; font-weight: normal; color: var(--text); }
+.list-sub { font-size: 12px; color: var(--text3); font-family: var(--mono); margin-top: 4px; }
+.filters { display: flex; gap: 8px; }
+.filter-btn {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text2);
+  cursor: pointer;
+  font-family: var(--mono);
+  font-size: 11px;
+  padding: 6px 12px;
+  width: auto;
+  transition: all 0.1s;
+}
+.filter-btn:hover, .filter-btn.active {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-dim);
+}
+
+.estrutura-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px 20px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: border-color 0.15s;
+}
+.estrutura-card:hover { border-color: var(--accent); }
+.estrutura-nome { font-size: 15px; color: var(--text); margin-bottom: 3px; }
+.estrutura-lat { font-size: 12px; color: var(--text3); font-style: italic; }
+.estrutura-meta { display: flex; align-items: center; gap: 12px; }
+.estrutura-regiao {
+  font-size: 11px;
+  font-family: var(--mono);
+  color: var(--text3);
+}
+
+/* FORMULÁRIO DE EDIÇÃO */
+.form-header { margin-bottom: 24px; }
+.form-title { font-size: 20px; font-weight: normal; }
+.form-lat { font-size: 14px; color: var(--text3); font-style: italic; margin-top: 4px; }
+.form-section {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 20px;
+  margin-bottom: 16px;
+}
+.form-section-title {
+  font-size: 11px;
+  font-family: var(--mono);
+  color: var(--text3);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 14px;
+}
+.field-label {
+  font-size: 12px;
+  color: var(--text2);
+  margin-bottom: 6px;
+  font-family: var(--mono);
+}
+.field-group { margin-bottom: 16px; }
+.field-group:last-child { margin-bottom: 0; }
+.form-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 24px;
+}
+
+/* TAGS EDITÁVEIS */
+.tags-input {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 8px;
+  min-height: 42px;
+  cursor: text;
+}
+.tags-input:focus-within { border-color: var(--accent); }
+.tag-item {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  color: var(--text2);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-family: var(--mono);
+  padding: 2px 8px;
+}
+.tag-remove {
+  cursor: pointer;
+  color: var(--text3);
+  font-size: 14px;
+  line-height: 1;
+  background: none;
+  border: none;
+  color: var(--text3);
+  padding: 0;
+  width: auto;
+}
+.tag-remove:hover { color: #C87070; background: none; }
+.tag-input-field {
+  background: none;
+  border: none;
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 12px;
+  outline: none;
+  padding: 2px 4px;
+  min-width: 120px;
+  width: auto;
+}
+
+/* PAINEL DE REVISÃO */
+.revisao-header {
+  background: var(--yellow-dim);
+  border: 1px solid var(--yellow);
+  border-radius: 6px;
+  padding: 16px 20px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.revisao-msg { font-size: 13px; color: #C9A84C; }
+.view-field { margin-bottom: 16px; }
+.view-label {
+  font-size: 10px;
+  font-family: var(--mono);
+  color: var(--text3);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 6px;
+}
+.view-value {
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.7;
+}
+.view-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.view-tag {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  color: var(--text2);
+  font-size: 12px;
+  font-family: var(--mono);
+  padding: 2px 8px;
+}
+.divider { height: 1px; background: var(--border); margin: 20px 0; }
+
+/* NOTIFICAÇÃO */
+.notif {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--green-dim);
+  border: 1px solid var(--green);
+  border-radius: 6px;
+  color: #7DC899;
+  font-size: 13px;
+  font-family: var(--mono);
+  padding: 12px 20px;
+  display: none;
+  z-index: 100;
+}
+.notif.visible { display: block; }
+
+/* EMPTY STATE */
+.empty {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text3);
+  font-size: 14px;
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">Morphé</div>
+    <div class="login-sub">cms editorial — fameu/unifatra</div>
+    <div class="field-group">
+      <div class="field-label">Token de acesso</div>
+      <input type="password" id="token-input" placeholder="GitHub Personal Access Token" />
+    </div>
+    <button onclick="fazerLogin()">Entrar</button>
+    <div id="login-erro" class="error-msg"></div>
+  </div>
+</div>
+
+<!-- APP -->
+<div class="app" id="app">
+  <div class="header">
+    <div class="header-logo">Morphé CMS</div>
+    <div class="header-right">
+      <div class="header-user" id="header-user"></div>
+      <button class="secondary small" onclick="fazerLogout()">Sair</button>
+    </div>
+  </div>
+  <div class="main">
+    <div class="sidebar">
+      <div class="sidebar-section">Regiões</div>
+      <div id="sidebar-regioes"></div>
+      <div class="sidebar-section" style="margin-top:16px">Filtrar por status</div>
+      <div class="sidebar-item" onclick="filtrarStatus('todos')" id="filtro-todos">
+        Todas <span class="sidebar-count" id="count-todos">0</span>
+      </div>
+      <div class="sidebar-item" onclick="filtrarStatus('rascunho')" id="filtro-rascunho">
+        Rascunho <span class="sidebar-count" id="count-rascunho">0</span>
+      </div>
+      <div class="sidebar-item" onclick="filtrarStatus('em_revisao')" id="filtro-em_revisao">
+        Em revisão <span class="sidebar-count" id="count-em_revisao">0</span>
+      </div>
+      <div class="sidebar-item" onclick="filtrarStatus('revisado')" id="filtro-revisado">
+        Revisado <span class="sidebar-count" id="count-revisado">0</span>
+      </div>
+    </div>
+    <div class="content" id="content">
+      <div class="empty">Carregando estruturas...</div>
+    </div>
+  </div>
+</div>
+
+<div class="notif" id="notif"></div>
+
+<script>
+const REPO_OWNER = 'studiolatina';
+const REPO_NAME = 'fameu-anto-histo-clinica';
+const DADOS_PATH = 'plataforma/dados';
+
+let token = '';
+let estruturas = [];
+let regiaoAtual = null;
+let statusFiltro = 'todos';
+let dadosArquivos = {};
+
+// ── LOGIN ──────────────────────────────────────────────────────────────────
+
+async function fazerLogin() {
+  const t = document.getElementById('token-input').value.trim();
+  if (!t) return;
+  document.getElementById('login-erro').textContent = '';
+
+  try {
+    const res = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}`, {
+      headers: { Authorization: `Bearer ${t}`, 'User-Agent': 'MorpheCMS' }
+    });
+    if (!res.ok) throw new Error('Token inválido');
+    token = t;
+    localStorage.setItem('morphe_token', t);
+    iniciarApp();
+  } catch (e) {
+    document.getElementById('login-erro').textContent = 'Token inválido ou sem acesso ao repositório.';
+  }
+}
+
+function fazerLogout() {
+  token = '';
+  localStorage.removeItem('morphe_token');
+  document.getElementById('app').classList.remove('visible');
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('token-input').value = '';
+}
+
+// ── INIT ───────────────────────────────────────────────────────────────────
+
+async function iniciarApp() {
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('app').classList.add('visible');
+  await carregarDados();
+}
+
+async function carregarDados() {
+  estruturas = [];
+  dadosArquivos = {};
+
+  // Lista arquivos JSON na pasta de dados
+  const res = await ghFetch(`/repos/${REPO_OWNER}/${REPO_NAME}/contents/${DADOS_PATH}`);
+  const arquivos = await res.json();
+  const jsons = arquivos.filter(f => f.name.endsWith('.json') && !f.name.includes('imagens'));
+
+  for (const arquivo of jsons) {
+    const conteudo = await ghFetch(arquivo.url);
+    const data = await conteudo.json();
+    const texto = atob(data.content.replace(/\n/g, ''));
+    const json = JSON.parse(texto);
+
+    dadosArquivos[arquivo.name] = {
+      sha: data.sha,
+      path: arquivo.path,
+      dados: json
+    };
+
+    if (json.estruturas) {
+      for (const e of json.estruturas) {
+        estruturas.push({ ...e, _arquivo: arquivo.name, _regiao: json.meta?.regiao || arquivo.name });
+      }
+    }
+  }
+
+  renderSidebar();
+  renderLista();
+}
+
+// ── GITHUB API ─────────────────────────────────────────────────────────────
+
+function ghFetch(url, options = {}) {
+  const base = url.startsWith('http') ? url : `https://api.github.com${url}`;
+  return fetch(base, {
+    ...options,
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'User-Agent': 'MorpheCMS',
+      'Content-Type': 'application/json',
+      ...(options.headers || {})
+    }
+  });
+}
+
+async function salvarEstrutura(estrutura) {
+  const arquivo = dadosArquivos[estrutura._arquivo];
+  const json = arquivo.dados;
+
+  const idx = json.estruturas.findIndex(e => e.id === estrutura.id);
+  if (idx === -1) return;
+
+  json.estruturas[idx] = estrutura;
+  json.meta.atualizado_em = new Date().toISOString().split('T')[0];
+
+  const conteudo = btoa(unescape(encodeURIComponent(JSON.stringify(json, null, 2))));
+
+  const res = await ghFetch(`/repos/${REPO_OWNER}/${REPO_NAME}/contents/${arquivo.path}`, {
+    method: 'PUT',
+    body: JSON.stringify({
+      message: `content: atualiza ${estrutura.names.pt} — status: ${estrutura.metadata.status}`,
+      content: conteudo,
+      sha: arquivo.sha
+    })
+  });
+
+  if (res.ok) {
+    const data = await res.json();
+    arquivo.sha = data.content.sha;
+    mostrarNotif(`✓ ${estrutura.names.pt} salvo com sucesso`);
+    await carregarDados();
+  }
+}
+
+// ── SIDEBAR ────────────────────────────────────────────────────────────────
+
+function renderSidebar() {
+  const regioes = [...new Set(estruturas.map(e => e._regiao))];
+  const container = document.getElementById('sidebar-regioes');
+  container.innerHTML = regioes.map(r => {
+    const count = estruturas.filter(e => e._regiao === r).length;
+    return `<div class="sidebar-item ${regiaoAtual === r ? 'active' : ''}"
+      onclick="filtrarRegiao('${r}')">
+      ${r} <span class="sidebar-count">${count}</span>
+    </div>`;
+  }).join('');
+
+  document.getElementById('count-todos').textContent = estruturas.length;
+  document.getElementById('count-rascunho').textContent = estruturas.filter(e => e.metadata?.status === 'rascunho').length;
+  document.getElementById('count-em_revisao').textContent = estruturas.filter(e => e.metadata?.status === 'em_revisao').length;
+  document.getElementById('count-revisado').textContent = estruturas.filter(e => e.metadata?.status === 'revisado').length;
+}
+
+function filtrarRegiao(regiao) {
+  regiaoAtual = regiaoAtual === regiao ? null : regiao;
+  renderSidebar();
+  renderLista();
+}
+
+function filtrarStatus(status) {
+  statusFiltro = status;
+  document.querySelectorAll('[id^="filtro-"]').forEach(el => el.classList.remove('active'));
+  document.getElementById(`filtro-${status}`).classList.add('active');
+  renderLista();
+}
+
+// ── LISTA ──────────────────────────────────────────────────────────────────
+
+function renderLista() {
+  let lista = [...estruturas];
+  if (regiaoAtual) lista = lista.filter(e => e._regiao === regiaoAtual);
+  if (statusFiltro !== 'todos') lista = lista.filter(e => e.metadata?.status === statusFiltro);
+
+  const revisados = lista.filter(e => e.metadata?.status === 'revisado');
+  const aviso = revisados.length > 0
+    ? `<div style="background:var(--green-dim);border:1px solid var(--green);border-radius:6px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:#7DC899;font-family:var(--mono)">
+        ✓ ${revisados.length} estrutura(s) revisada(s) — pronta(s) para commitar e fazer deploy
+       </div>` : '';
+
+  const content = document.getElementById('content');
+  content.innerHTML = `
+    <div class="list-header">
+      <div>
+        <div class="list-title">${regiaoAtual || 'Todas as estruturas'}</div>
+        <div class="list-sub">${lista.length} estrutura(s)</div>
+      </div>
+    </div>
+    ${aviso}
+    ${lista.length === 0
+      ? '<div class="empty">Nenhuma estrutura encontrada.</div>'
+      : lista.map(e => `
+        <div class="estrutura-card" onclick="abrirEstrutura('${e.id}')">
+          <div>
+            <div class="estrutura-nome">${e.names?.pt || '—'}</div>
+            <div class="estrutura-lat">${e.names?.la || '—'}</div>
+          </div>
+          <div class="estrutura-meta">
+            <div class="estrutura-regiao">${e.classification?.tipo || ''}</div>
+            <div class="badge badge-${e.metadata?.status || 'rascunho'}">${(e.metadata?.status || 'rascunho').replace('_', ' ')}</div>
+          </div>
+        </div>`).join('')}`;
+}
+
+// ── EDIÇÃO ─────────────────────────────────────────────────────────────────
+
+function abrirEstrutura(id) {
+  const e = estruturas.find(e => e.id === id);
+  if (!e) return;
+
+  const emRevisao = e.metadata?.status === 'em_revisao';
+  const revisado = e.metadata?.status === 'revisado';
+
+  if (emRevisao || revisado) {
+    renderRevisao(e);
+    return;
+  }
+
+  renderEdicao(e);
+}
+
+function renderEdicao(e) {
+  document.getElementById('content').innerHTML = `
+    <div class="form-header">
+      <button class="secondary small" onclick="renderLista()" style="margin-bottom:16px">← Voltar</button>
+      <div class="form-title">${e.names?.pt || '—'}</div>
+      <div class="form-lat">${e.names?.la || '—'}</div>
+    </div>
+
+    <div class="form-section">
+      <div class="form-section-title">Morfologia</div>
+
+      <div class="field-group">
+        <div class="field-label">Descrição morfológica</div>
+        <textarea id="f-descricao" rows="5">${e.morphology?.descricao || ''}</textarea>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Função</div>
+        <textarea id="f-funcao" rows="2">${e.morphology?.funcao || ''}</textarea>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <div class="form-section-title">Relações</div>
+
+      <div class="field-group">
+        <div class="field-label">Articula-se com (slugs — pressione Enter para adicionar)</div>
+        <div class="tags-input" id="tags-articulacoes" onclick="focusTagInput('tags-articulacoes')">
+          ${(e.morphology?.articulacoes_slugs || []).map(t => tagHTML(t, 'tags-articulacoes')).join('')}
+          <input class="tag-input-field" placeholder="ex: os-parietale" onkeydown="addTag(event, 'tags-articulacoes')">
+        </div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Inserções musculares (pressione Enter para adicionar)</div>
+        <div class="tags-input" id="tags-insercoes" onclick="focusTagInput('tags-insercoes')">
+          ${(e.morphology?.insercoes_musculares || []).map(t => tagHTML(t, 'tags-insercoes')).join('')}
+          <input class="tag-input-field" placeholder="ex: M. esternocleidomastóideo" onkeydown="addTag(event, 'tags-insercoes')">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <div class="form-section-title">Referências</div>
+      <div class="field-group">
+        <div class="field-label">Referências bibliográficas</div>
+        <div id="refs-container">
+          ${(e.references || []).map((r, i) => refHTML(r, i)).join('')}
+        </div>
+        <button class="secondary small" style="margin-top:8px;width:auto" onclick="addRef()">+ Adicionar referência</button>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button class="secondary" onclick="salvarStatus('${e.id}', 'rascunho')">Salvar rascunho</button>
+      <button onclick="salvarStatus('${e.id}', 'em_revisao')">Enviar para revisão →</button>
+    </div>
+  `;
+}
+
+function tagHTML(valor, containerId) {
+  return `<span class="tag-item">${valor}<button class="tag-remove" onclick="removeTag(this, '${containerId}')">×</button></span>`;
+}
+
+function addTag(event, containerId) {
+  if (event.key !== 'Enter') return;
+  event.preventDefault();
+  const input = event.target;
+  const valor = input.value.trim();
+  if (!valor) return;
+  const container = document.getElementById(containerId);
+  container.insertBefore(
+    Object.assign(document.createElement('div'), { innerHTML: tagHTML(valor, containerId) }).firstChild,
+    input
+  );
+  input.value = '';
+}
+
+function removeTag(btn, containerId) {
+  btn.parentElement.remove();
+}
+
+function focusTagInput(containerId) {
+  document.querySelector(`#${containerId} .tag-input-field`)?.focus();
+}
+
+function getTags(containerId) {
+  return [...document.querySelectorAll(`#${containerId} .tag-item`)]
+    .map(t => t.textContent.replace('×', '').trim());
+}
+
+function refHTML(ref, i) {
+  return `<div style="display:flex;gap:8px;margin-bottom:8px" id="ref-${i}">
+    <input type="text" value="${ref.obra || ''}" placeholder="Obra" style="flex:2">
+    <input type="text" value="${ref.edicao || ''}" placeholder="Edição" style="flex:1">
+    <input type="text" value="${ref.capitulo || ref.prancha || ''}" placeholder="Cap./Prancha" style="flex:1">
+    <button class="tag-remove secondary small" style="width:32px;flex-shrink:0" onclick="document.getElementById('ref-${i}').remove()">×</button>
+  </div>`;
+}
+
+function addRef() {
+  const container = document.getElementById('refs-container');
+  const i = Date.now();
+  container.insertAdjacentHTML('beforeend', refHTML({}, i));
+}
+
+function getRefs() {
+  const grupos = document.querySelectorAll('#refs-container > div');
+  return [...grupos].map(g => {
+    const inputs = g.querySelectorAll('input');
+    return { obra: inputs[0].value, edicao: inputs[1].value, capitulo: inputs[2].value };
+  }).filter(r => r.obra);
+}
+
+async function salvarStatus(id, novoStatus) {
+  const e = estruturas.find(e => e.id === id);
+  if (!e) return;
+
+  const atualizado = {
+    ...e,
+    morphology: {
+      ...e.morphology,
+      descricao: document.getElementById('f-descricao')?.value || e.morphology?.descricao,
+      funcao: document.getElementById('f-funcao')?.value || e.morphology?.funcao,
+      articulacoes_slugs: getTags('tags-articulacoes'),
+      insercoes_musculares: getTags('tags-insercoes'),
+    },
+    references: getRefs(),
+    metadata: {
+      ...e.metadata,
+      status: novoStatus,
+      atualizado_em: new Date().toISOString().split('T')[0]
+    }
+  };
+
+  await salvarEstrutura(atualizado);
+}
+
+// ── REVISÃO ────────────────────────────────────────────────────────────────
+
+function renderRevisao(e) {
+  const revisado = e.metadata?.status === 'revisado';
+
+  document.getElementById('content').innerHTML = `
+    <button class="secondary small" onclick="renderLista()" style="margin-bottom:16px">← Voltar</button>
+
+    <div class="revisao-header">
+      <div class="revisao-msg">${revisado ? '✓ Estrutura validada pela Profa. Barbara' : '⧗ Aguardando revisão científica'}</div>
+      ${!revisado ? `<button class="success small" onclick="validarEstrutura('${e.id}')">✓ Validar</button>` : ''}
+    </div>
+
+    <div class="form-section">
+      <div class="view-field">
+        <div class="view-label">Nome</div>
+        <div class="view-value" style="font-size:20px">${e.names?.pt}</div>
+        <div class="view-value" style="font-style:italic;font-size:14px;color:var(--text3)">${e.names?.la}</div>
+      </div>
+      <div class="divider"></div>
+      <div class="view-field">
+        <div class="view-label">Descrição morfológica</div>
+        <div class="view-value">${e.morphology?.descricao || '—'}</div>
+      </div>
+      <div class="view-field">
+        <div class="view-label">Função</div>
+        <div class="view-value">${e.morphology?.funcao || '—'}</div>
+      </div>
+      ${e.morphology?.articulacoes_slugs?.length ? `
+      <div class="view-field">
+        <div class="view-label">Articula-se com</div>
+        <div class="view-tags">${e.morphology.articulacoes_slugs.map(t => `<span class="view-tag">${t}</span>`).join('')}</div>
+      </div>` : ''}
+      ${e.morphology?.insercoes_musculares?.length ? `
+      <div class="view-field">
+        <div class="view-label">Inserções musculares</div>
+        <div class="view-tags">${e.morphology.insercoes_musculares.map(t => `<span class="view-tag">${t}</span>`).join('')}</div>
+      </div>` : ''}
+      <div class="divider"></div>
+      <div class="view-field">
+        <div class="view-label">Referências</div>
+        <div class="view-tags">${(e.references || []).map(r => `<span class="view-tag">${r.obra}${r.edicao ? ' · ' + r.edicao : ''}${r.capitulo ? ' · ' + r.capitulo : ''}</span>`).join('')}</div>
+      </div>
+    </div>
+
+    ${!revisado ? `
+    <div class="form-actions">
+      <button class="secondary" onclick="voltarParaEdicao('${e.id}')">← Devolver para edição</button>
+      <button class="success" onclick="validarEstrutura('${e.id}')">✓ Validar estrutura</button>
+    </div>` : ''}
+  `;
+}
+
+async function validarEstrutura(id) {
+  const e = estruturas.find(e => e.id === id);
+  if (!e) return;
+
+  const atualizado = {
+    ...e,
+    metadata: { ...e.metadata, status: 'revisado', atualizado_em: new Date().toISOString().split('T')[0] }
+  };
+
+  await salvarEstrutura(atualizado);
+
+  // Aviso de deploy
+  mostrarNotif('✓ Validado! Pronto para commitar e fazer deploy.');
+}
+
+async function voltarParaEdicao(id) {
+  const e = estruturas.find(e => e.id === id);
+  if (!e) return;
+
+  const atualizado = {
+    ...e,
+    metadata: { ...e.metadata, status: 'rascunho', atualizado_em: new Date().toISOString().split('T')[0] }
+  };
+
+  await salvarEstrutura(atualizado);
+}
+
+// ── UTILS ──────────────────────────────────────────────────────────────────
+
+function mostrarNotif(msg) {
+  const el = document.getElementById('notif');
+  el.textContent = msg;
+  el.classList.add('visible');
+  setTimeout(() => el.classList.remove('visible'), 4000);
+}
+
+// ── AUTO LOGIN ─────────────────────────────────────────────────────────────
+
+const tokenSalvo = localStorage.getItem('morphe_token');
+if (tokenSalvo) {
+  token = tokenSalvo;
+  document.getElementById('header-user').textContent = 'morphé · fameu';
+  iniciarApp();
+}
+
+document.getElementById('token-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') fazerLogin();
+});
+</script>
+</body>
+</html>
